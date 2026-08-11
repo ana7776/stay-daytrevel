@@ -1,0 +1,17 @@
+{
+  "name": "stay-daytrevel",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^7.2.0",
+    "@astrojs/mdx": "^7.0.5"
+  }
+}
