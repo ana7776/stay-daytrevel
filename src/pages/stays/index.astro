@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const stays = await getCollection('stays');
+const sortedStays = stays.sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+---
+
+<BaseLayout title="숙소 가이드 | Daytrevel Stay" description="도시별 숙소 위치와 예약 팁 모음">
+  <section class="page-head">
+    <p class="eyebrow">Stay Guides</p>
+    <h1>숙소 가이드</h1>
+    <p>도시별 동선, 예산, 예약 전 체크 포인트를 모아둡니다.</p>
+  </section>
+
+  <section class="list">
+    {sortedStays.map((stay) => (
+      <article class="list-item">
+        <p class="meta">{stay.data.country} · {stay.data.city}</p>
+        <h2><a href={`/stays/${stay.id}/`}>{stay.data.title}</a></h2>
+        <p>{stay.data.description}</p>
+      </article>
+    ))}
+  </section>
+</BaseLayout>
