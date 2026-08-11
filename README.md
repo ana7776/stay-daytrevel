@@ -19,3 +19,8 @@ npm run build
 ## Deployment
 
 Cloudflare Pages에서 이 저장소의 `main` 브랜치를 연결하고, 커스텀 도메인으로 `stay.daytrevel.com`을 지정합니다.
+
+- Project name: `stay-daytrevel`
+- Production branch: `main`
+- Build command: `npm run build`
+- Build output directory: `dist`
