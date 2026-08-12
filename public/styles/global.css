@@ -34,6 +34,11 @@ header nav {
 	align-items: center;
 }
 
+header nav .nav-links {
+	display: flex;
+	gap: 1rem;
+}
+
 header nav a {
 	color: var(--color-text);
 	text-decoration: none;

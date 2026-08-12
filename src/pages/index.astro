@@ -4,22 +4,37 @@ import { getCollection } from 'astro:content';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 const stays = (await getCollection('stays')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+const spots = (await getCollection('spots')).sort((a, b) => a.data.title.localeCompare(b.data.title));
 ---
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<section class="hero">
 		<h1>{SITE_TITLE}</h1>
-		<p>지역별 숙소 위치를 고르는 기준과 이동 동선을 정리한 정보성 가이드입니다.</p>
+		<p>지역별 숙소 위치를 고르는 기준과 이동 동선, 가볼만한 곳을 정리한 정보성 가이드입니다.</p>
 	</section>
 
 	<section>
-		<h2>최근 가이드</h2>
+		<h2>숙소 가이드</h2>
 		<ul class="stay-list">
 			{
 				stays.map((stay) => (
 					<li>
 						<a href={`/stays/${stay.id}/`}>{stay.data.title}</a>
 						<p>{stay.data.description}</p>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<section>
+		<h2>여행 정보</h2>
+		<ul class="stay-list">
+			{
+				spots.map((spot) => (
+					<li>
+						<a href={`/spots/${spot.id}/`}>{spot.data.title}</a>
+						<p>{spot.data.description}</p>
 					</li>
 				))
 			}

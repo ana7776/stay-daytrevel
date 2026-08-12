@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const spots = (await getCollection('spots')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<Layout title="여행 정보 목록" description="가볼만한 곳, 산책 코스 등 여행 정보 모음">
+	<h1>여행 정보</h1>
+	<ul class="stay-list">
+		{
+			spots.map((spot) => (
+				<li>
+					<a href={`/spots/${spot.id}/`}>{spot.data.title}</a>
+					<p>{spot.data.description}</p>
+				</li>
+			))
+		}
+	</ul>
+</Layout>

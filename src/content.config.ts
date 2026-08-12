@@ -15,4 +15,16 @@ const stays = defineCollection({
 	}),
 });
 
-export const collections = { stays };
+const spots = defineCollection({
+	loader: glob({ base: './src/content/spots', pattern: '**/*.{md,mdx}' }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		keyword: z.string(),
+		pubDate: z.coerce.date().optional(),
+		updatedDate: z.coerce.date().optional(),
+		faq: z.array(z.object({ q: z.string(), a: z.string() })).min(4).max(6),
+	}),
+});
+
+export const collections = { stays, spots };
