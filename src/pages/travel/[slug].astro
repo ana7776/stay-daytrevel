@@ -1,0 +1,64 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('travel');
+
+  return guides.map((guide) => ({
+    params: { slug: guide.id },
+    props: { guide }
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await render(guide);
+const faqJson = guide.data.faq.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: guide.data.faq.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.a
+        }
+      }))
+    }
+  : null;
+---
+
+<BaseLayout title={`${guide.data.title} | Daytrevel Stay`} description={guide.data.description}>
+  {faqJson && <script type="application/ld+json" set:html={JSON.stringify(faqJson)} />}
+  <article class="article">
+    <p class="meta">{guide.data.country} · {guide.data.city} · {guide.data.season}</p>
+    <h1>{guide.data.title}</h1>
+    <p class="lead">{guide.data.description}</p>
+    {guide.data.image && (
+      <figure class="article-image">
+        <img src={guide.data.image} alt={guide.data.imageAlt ?? guide.data.title} loading="eager" />
+        {(guide.data.imageCredit || guide.data.imageSource) && (
+          <figcaption>
+            {guide.data.imageCredit && <span>{guide.data.imageCredit}</span>}
+            {guide.data.imageSource && (
+              <a href={guide.data.imageSource} target="_blank" rel="noreferrer">이미지 출처</a>
+            )}
+          </figcaption>
+        )}
+      </figure>
+    )}
+    <Content />
+    {guide.data.faq.length > 0 && (
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">자주 묻는 질문</h2>
+        {guide.data.faq.map((item) => (
+          <details>
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </section>
+    )}
+  </article>
+</BaseLayout>

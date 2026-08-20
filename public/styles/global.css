@@ -113,6 +113,12 @@ h2 {
   text-decoration: none;
 }
 
+.button.secondary {
+  margin-left: 8px;
+  background: transparent;
+  color: #fff;
+}
+
 .section,
 .page-head,
 .list,
@@ -147,6 +153,15 @@ h2 {
   font-size: 1.35rem;
 }
 
+.list-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+  margin-bottom: 18px;
+  object-fit: cover;
+}
+
 .list-item a {
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
@@ -161,9 +176,99 @@ h2 {
   font-size: 2.7rem;
 }
 
+.article h2 {
+  margin-top: 44px;
+}
+
 .lead {
   color: #5f6368;
   font-size: 1.1rem;
+}
+
+.article-image {
+  margin: 28px 0 34px;
+}
+
+.article-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.article-image figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  color: #5f6368;
+  font-size: 0.85rem;
+}
+
+.article-image figcaption a {
+  text-underline-offset: 3px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 24px 0;
+  border: 1px solid #ded5c8;
+  border-radius: 8px;
+  background: #fffaf2;
+}
+
+table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #ded5c8;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f0e7d8;
+  font-size: 0.92rem;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+.note {
+  padding: 16px 18px;
+  border-left: 4px solid #8c5f2f;
+  background: #fffaf2;
+  color: #3c4043;
+}
+
+.faq {
+  margin-top: 44px;
+}
+
+.faq details {
+  border-top: 1px solid #ded5c8;
+  padding: 18px 0;
+}
+
+.faq details:last-child {
+  border-bottom: 1px solid #ded5c8;
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.faq p {
+  margin: 12px 0 0;
+  color: #5f6368;
 }
 
 .site-footer {

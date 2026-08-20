@@ -19,10 +19,10 @@ const faqJson = stay.data.faq.length
       '@type': 'FAQPage',
       mainEntity: stay.data.faq.map((item) => ({
         '@type': 'Question',
-        name: item.question,
+        name: item.q,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: item.answer
+          text: item.a
         }
       }))
     }
@@ -35,6 +35,30 @@ const faqJson = stay.data.faq.length
     <p class="meta">{stay.data.country} · {stay.data.city}</p>
     <h1>{stay.data.title}</h1>
     <p class="lead">{stay.data.description}</p>
+    {stay.data.image && (
+      <figure class="article-image">
+        <img src={stay.data.image} alt={stay.data.imageAlt ?? stay.data.title} loading="eager" />
+        {(stay.data.imageCredit || stay.data.imageSource) && (
+          <figcaption>
+            {stay.data.imageCredit && <span>{stay.data.imageCredit}</span>}
+            {stay.data.imageSource && (
+              <a href={stay.data.imageSource} target="_blank" rel="noreferrer">이미지 출처</a>
+            )}
+          </figcaption>
+        )}
+      </figure>
+    )}
     <Content />
+    {stay.data.faq.length > 0 && (
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">자주 묻는 질문</h2>
+        {stay.data.faq.map((item) => (
+          <details>
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </section>
+    )}
   </article>
 </BaseLayout>

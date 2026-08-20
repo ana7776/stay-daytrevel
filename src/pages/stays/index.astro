@@ -8,7 +8,7 @@ const sortedStays = stays.sort(
 );
 ---
 
-<BaseLayout title="숙소 가이드 | Daytrevel Stay" description="도시별 숙소 위치와 예약 팁 모음">
+<BaseLayout title="숙소 가이드 | Daytrevel Stay" description="도시별 숙소 위치와 예약 전 체크리스트 모음">
   <section class="page-head">
     <p class="eyebrow">Stay Guides</p>
     <h1>숙소 가이드</h1>
@@ -18,6 +18,9 @@ const sortedStays = stays.sort(
   <section class="list">
     {sortedStays.map((stay) => (
       <article class="list-item">
+        {stay.data.image && (
+          <img class="list-image" src={stay.data.image} alt={stay.data.imageAlt ?? stay.data.title} loading="lazy" />
+        )}
         <p class="meta">{stay.data.country} · {stay.data.city}</p>
         <h2><a href={`/stays/${stay.id}/`}>{stay.data.title}</a></h2>
         <p>{stay.data.description}</p>
