@@ -29,7 +29,7 @@ const faqJson = stay.data.faq.length
   : null;
 ---
 
-<BaseLayout title={`${stay.data.title} | Daytrevel Stay`} description={stay.data.description}>
+<BaseLayout title={`${stay.data.title} | Daytrevel Stay`} description={stay.data.description} image={stay.data.image}>
   {faqJson && <script type="application/ld+json" set:html={JSON.stringify(faqJson)} />}
   <article class="article">
     <p class="meta">{stay.data.country} · {stay.data.city}</p>

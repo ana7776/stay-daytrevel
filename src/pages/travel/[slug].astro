@@ -29,7 +29,7 @@ const faqJson = guide.data.faq.length
   : null;
 ---
 
-<BaseLayout title={`${guide.data.title} | Daytrevel Stay`} description={guide.data.description}>
+<BaseLayout title={`${guide.data.title} | Daytrevel Stay`} description={guide.data.description} image={guide.data.image}>
   {faqJson && <script type="application/ld+json" set:html={JSON.stringify(faqJson)} />}
   <article class="article">
     <p class="meta">{[guide.data.country, guide.data.city, guide.data.season].filter(Boolean).join(' · ')}</p>
