@@ -1,58 +1,64 @@
 ---
-import Layout from '../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
-	const stays = await getCollection('stays');
-	return stays.map((stay) => ({
-		params: { slug: stay.id },
-		props: { stay },
-	}));
+  const stays = await getCollection('stays');
+
+  return stays.map((stay) => ({
+    params: { slug: stay.id },
+    props: { stay }
+  }));
 }
 
 const { stay } = Astro.props;
-const { title, description, keyword, faq } = stay.data;
 const { Content } = await render(stay);
-
-const faqJsonLd = {
-	'@context': 'https://schema.org',
-	'@type': 'FAQPage',
-	mainEntity: faq.map((item) => ({
-		'@type': 'Question',
-		name: item.q,
-		acceptedAnswer: {
-			'@type': 'Answer',
-			text: item.a,
-		},
-	})),
-};
+const faqJson = stay.data.faq.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: stay.data.faq.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.a
+        }
+      }))
+    }
+  : null;
 ---
 
-<Layout title={title} description={description}>
-	<article class="stay-article">
-		<header>
-			<h1>{title}</h1>
-			<p class="stay-keyword">타겟 키워드: {keyword}</p>
-		</header>
-
-		<div class="stay-content">
-			<Content />
-		</div>
-
-		<section class="faq" aria-labelledby="faq-heading">
-			<h2 id="faq-heading">자주 묻는 질문</h2>
-			<dl>
-				{
-					faq.map((item) => (
-						<div class="faq-item">
-							<dt>{item.q}</dt>
-							<dd>{item.a}</dd>
-						</div>
-					))
-				}
-			</dl>
-		</section>
-	</article>
-
-	<script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-</Layout>
+<BaseLayout title={`${stay.data.title} | Daytrevel Stay`} description={stay.data.description}>
+  {faqJson && <script type="application/ld+json" set:html={JSON.stringify(faqJson)} />}
+  <article class="article">
+    <p class="meta">{stay.data.country} · {stay.data.city}</p>
+    <h1>{stay.data.title}</h1>
+    <p class="lead">{stay.data.description}</p>
+    {stay.data.image && (
+      <figure class="article-image">
+        <img src={stay.data.image} alt={stay.data.imageAlt ?? stay.data.title} loading="eager" />
+        {(stay.data.imageCredit || stay.data.imageSource) && (
+          <figcaption>
+            {stay.data.imageCredit && <span>{stay.data.imageCredit}</span>}
+            {stay.data.imageSource && (
+              <a href={stay.data.imageSource} target="_blank" rel="noreferrer">이미지 출처</a>
+            )}
+          </figcaption>
+        )}
+      </figure>
+    )}
+    <Content />
+    {stay.data.faq.length > 0 && (
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">자주 묻는 질문</h2>
+        {stay.data.faq.map((item) => (
+          <details>
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </section>
+    )}
+  </article>
+</BaseLayout>

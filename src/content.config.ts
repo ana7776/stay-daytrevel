@@ -1,30 +1,54 @@
-import { defineCollection } from 'astro:content';
+import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { z } from 'astro/zod';
 
 const stays = defineCollection({
-	loader: glob({ base: './src/content/stays', pattern: '**/*.{md,mdx}' }),
-	schema: z.object({
-		title: z.string(),
-		description: z.string(),
-		keyword: z.string(),
-		affiliateReady: z.boolean().default(false),
-		pubDate: z.coerce.date().optional(),
-		updatedDate: z.coerce.date().optional(),
-		faq: z.array(z.object({ q: z.string(), a: z.string() })).min(4).max(6),
-	}),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/stays' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    keyword: z.string(),
+    pubDate: z.coerce.date(),
+    city: z.string(),
+    country: z.string(),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    imageCredit: z.string().optional(),
+    imageSource: z.string().optional(),
+    affiliateReady: z.boolean().default(false),
+    faq: z
+      .array(
+        z.object({
+          q: z.string(),
+          a: z.string()
+        })
+      )
+      .default([])
+  })
 });
 
-const spots = defineCollection({
-	loader: glob({ base: './src/content/spots', pattern: '**/*.{md,mdx}' }),
-	schema: z.object({
-		title: z.string(),
-		description: z.string(),
-		keyword: z.string(),
-		pubDate: z.coerce.date().optional(),
-		updatedDate: z.coerce.date().optional(),
-		faq: z.array(z.object({ q: z.string(), a: z.string() })).min(4).max(6),
-	}),
+const travel = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/travel' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    keyword: z.string(),
+    pubDate: z.coerce.date(),
+    city: z.string(),
+    country: z.string(),
+    season: z.string().optional(),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    imageCredit: z.string().optional(),
+    imageSource: z.string().optional(),
+    faq: z
+      .array(
+        z.object({
+          q: z.string(),
+          a: z.string()
+        })
+      )
+      .default([])
+  })
 });
 
-export const collections = { stays, spots };
+export const collections = { stays, travel };

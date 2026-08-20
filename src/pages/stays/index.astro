@@ -1,20 +1,30 @@
 ---
-import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const stays = (await getCollection('stays')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+const stays = await getCollection('stays');
+const sortedStays = stays.sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
 ---
 
-<Layout title="숙소 가이드 목록" description="지역별 숙소 위치 선택 가이드 모음">
-	<h1>숙소 가이드</h1>
-	<ul class="stay-list">
-		{
-			stays.map((stay) => (
-				<li>
-					<a href={`/stays/${stay.id}/`}>{stay.data.title}</a>
-					<p>{stay.data.description}</p>
-				</li>
-			))
-		}
-	</ul>
-</Layout>
+<BaseLayout title="숙소 가이드 | Daytrevel Stay" description="도시별 숙소 위치와 예약 전 체크리스트 모음">
+  <section class="page-head">
+    <p class="eyebrow">Stay Guides</p>
+    <h1>숙소 가이드</h1>
+    <p>도시별 동선, 예산, 예약 전 체크 포인트를 모아둡니다.</p>
+  </section>
+
+  <section class="list">
+    {sortedStays.map((stay) => (
+      <article class="list-item">
+        {stay.data.image && (
+          <img class="list-image" src={stay.data.image} alt={stay.data.imageAlt ?? stay.data.title} loading="lazy" />
+        )}
+        <p class="meta">{stay.data.country} · {stay.data.city}</p>
+        <h2><a href={`/stays/${stay.id}/`}>{stay.data.title}</a></h2>
+        <p>{stay.data.description}</p>
+      </article>
+    ))}
+  </section>
+</BaseLayout>
