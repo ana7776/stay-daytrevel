@@ -18,8 +18,21 @@ const spots = (await getCollection('spots')).sort((a, b) => a.data.title.localeC
 		<ul class="stay-list">
 			{
 				stays.map((stay) => (
-					<li>
-						<a href={`/stays/${stay.id}/`}>{stay.data.title}</a>
+				<li>
+						<a href={`/stays/${stay.id}/`}>
+							{stay.data.heroImage && (
+								<img
+									class="card-thumb"
+									src={stay.data.heroImage}
+									alt={stay.data.heroImageAlt ?? stay.data.title}
+									width="1200"
+									height="630"
+									loading="lazy"
+									decoding="async"
+								/>
+							)}
+							<span class="card-title">{stay.data.title}</span>
+						</a>
 						<p>{stay.data.description}</p>
 					</li>
 				))
@@ -32,8 +45,21 @@ const spots = (await getCollection('spots')).sort((a, b) => a.data.title.localeC
 		<ul class="stay-list">
 			{
 				spots.map((spot) => (
-					<li>
-						<a href={`/spots/${spot.id}/`}>{spot.data.title}</a>
+				<li>
+						<a href={`/spots/${spot.id}/`}>
+							{spot.data.heroImage && (
+								<img
+									class="card-thumb"
+									src={spot.data.heroImage}
+									alt={spot.data.heroImageAlt ?? spot.data.title}
+									width="1200"
+									height="630"
+									loading="lazy"
+									decoding="async"
+								/>
+							)}
+							<span class="card-title">{spot.data.title}</span>
+						</a>
 						<p>{spot.data.description}</p>
 					</li>
 				))

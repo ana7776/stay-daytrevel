@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 }
 
 const { stay } = Astro.props;
-const { title, description, keyword, faq } = stay.data;
+const { title, description, keyword, faq, heroImage } = stay.data;
 const { Content } = await render(stay);
 
 const faqJsonLd = {
@@ -28,7 +28,7 @@ const faqJsonLd = {
 };
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} image={heroImage}>
 	<article class="stay-article">
 		<header>
 			<h1>{title}</h1>

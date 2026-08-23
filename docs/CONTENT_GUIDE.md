@@ -9,11 +9,16 @@ Stay Daytrevel에 새 글을 추가할 때 따라야 할 규칙입니다.
 
 **하는 일:** `src/content/` 아래에 `.mdx` 글 파일을 추가하는 것.
 
+**함께 하는 일:** 글마다 이미지 2장이 필요합니다. 11장을 참고해
+`scripts/image-data.json`에 항목을 추가하고 `npm run images`를 실행합니다.
+(이 두 가지는 아래 금지 목록의 예외입니다.)
+
 **하지 않는 일:** 아래 파일들은 이 작업에서 **수정하지 않습니다.**
 
 - `src/layouts/`, `src/components/`, `src/pages/` 전체
 - `src/content.config.ts`, `astro.config.mjs`, `package.json`
-- `public/` 전체
+- `scripts/generate-images.mjs` (데이터만 넣고 스크립트 자체는 건드리지 않음)
+- `public/styles/`
 
 레이아웃·SEO·광고 코드는 별도 작업으로 진행 중이라, 위 파일을 건드리면 충돌합니다.
 새 글을 위해 스키마 변경이 필요해 보이면 직접 고치지 말고 그 사실을 보고해 주세요.
@@ -247,3 +252,70 @@ content: add 도쿄 신주쿠 숙소 가이드
 - 지방 도시의 걷기 좋은 코스
 
 기존 글과 다루는 지역이 겹치지 않는지 `src/content/` 를 먼저 확인합니다.
+
+---
+
+## 11. 이미지
+
+글마다 이미지 2장이 붙습니다. 사진이 아니라 **생성한 그래픽**입니다.
+
+| 종류 | 경로 | 크기 | 쓰이는 곳 |
+| --- | --- | --- | --- |
+| 썸네일 | `/images/thumb/<slug>.png` | 1200×630 | og:image(공유 썸네일), 목록 카드 |
+| 본문 도식 | `/images/route/<slug>.png` | 1600×440 | 본문 중간 |
+
+### 만드는 방법
+
+`scripts/image-data.json`에 slug를 키로 항목을 추가한 뒤 `npm run images`를 실행하면
+두 장이 함께 생성됩니다. 직접 그리지 않습니다.
+
+```json
+"<slug>": {
+  "category": "여행 정보",
+  "title": "썸네일에 크게 들어갈 제목",
+  "keyword": "썸네일 하단에 들어갈 부제",
+  "diagram": {
+    "heading": "도식 제목",
+    "nodes": ["단계 1", "단계 2", "단계 3"],
+    "note": "도식 아래 한 줄 설명"
+  }
+}
+```
+
+- `mode`를 `"group"`으로 주면 화살표 없이 나란히 놓입니다. 순서가 아니라 **비교**일 때 씁니다.
+  (예: 이름이 비슷한 역 네 곳을 나열하는 경우)
+- `nodes`는 3~5개. 각 항목은 짧게 씁니다. 길면 글자가 작아집니다.
+
+### 본문에 넣는 형태
+
+첫 번째 `##` 섹션이 끝나는 지점, 즉 **두 번째 `##` 바로 앞**에 넣습니다.
+
+```html
+<figure class="article-figure">
+	<img
+		src="/images/route/<slug>.png"
+		alt="<도식 제목>을 단계별로 정리한 도식 - <keyword>"
+		width="1600"
+		height="440"
+		loading="lazy"
+		decoding="async"
+	/>
+	<figcaption><도식의 note와 같은 문장></figcaption>
+</figure>
+```
+
+frontmatter에는 썸네일을 넣습니다.
+
+```yaml
+heroImage: '/images/thumb/<slug>.png'
+heroImageAlt: '<keyword> 정보 가이드 썸네일 이미지'
+```
+
+### 규칙
+
+- **`alt`에 `keyword`가 반드시 들어가야 합니다.** 네이버 이미지 검색은 alt를 직접 읽습니다.
+- **`figcaption`은 이미지 안 문장과 같게 씁니다.** 이미지 속 글자는 검색엔진이 읽지 못하므로,
+  같은 내용을 본문 텍스트로 한 번 더 남겨야 합니다.
+- **도식에 새로운 사실을 넣지 않습니다.** 본문에 이미 쓴 내용만 도식으로 옮깁니다.
+  도식은 요약이지 추가 정보가 아닙니다.
+- `width`와 `height`를 반드시 지정합니다. 없으면 로딩 중 화면이 밀립니다.

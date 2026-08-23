@@ -11,7 +11,20 @@ const stays = (await getCollection('stays')).sort((a, b) => a.data.title.localeC
 		{
 			stays.map((stay) => (
 				<li>
-					<a href={`/stays/${stay.id}/`}>{stay.data.title}</a>
+					<a href={`/stays/${stay.id}/`}>
+						{stay.data.heroImage && (
+							<img
+								class="card-thumb"
+								src={stay.data.heroImage}
+								alt={stay.data.heroImageAlt ?? stay.data.title}
+								width="1200"
+								height="630"
+								loading="lazy"
+								decoding="async"
+							/>
+						)}
+						<span class="card-title">{stay.data.title}</span>
+					</a>
 					<p>{stay.data.description}</p>
 				</li>
 			))
