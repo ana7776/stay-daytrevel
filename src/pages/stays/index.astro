@@ -7,13 +7,24 @@ const stays = (await getCollection('stays')).sort((a, b) => a.data.title.localeC
 
 <Layout title="숙소 가이드 목록" description="지역별 숙소 위치 선택 가이드 모음">
 	<h1>숙소 가이드</h1>
-	<ul class="stay-list">
+	<ul class="card-list">
 		{
 			stays.map((stay) => (
 				<li>
-					<a href={`/stays/${stay.id}/`}>{stay.data.title}</a>
-					<p>{stay.data.description}</p>
-				</li>
+				<a href={`/stays/${stay.id}/`} class="card-link">
+					<img
+						class="card-thumb"
+						src={stay.data.heroImage}
+						alt={stay.data.heroImageAlt}
+						width="1200"
+						height="630"
+						loading="lazy"
+						decoding="async"
+					/>
+					<span class="card-title">{stay.data.title}</span>
+				</a>
+				<p>{stay.data.description}</p>
+			</li>
 			))
 		}
 	</ul>

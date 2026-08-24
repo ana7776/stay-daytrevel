@@ -11,7 +11,8 @@ export async function getStaticPaths() {
 }
 
 const { spot } = Astro.props;
-const { title, description, keyword, faq } = spot.data;
+const { title, description, keyword, heroImage, heroImageAlt, faq } = spot.data;
+const ogImage = `/images/og/${spot.id}.jpg`;
 const { Content } = await render(spot);
 
 const faqJsonLd = {
@@ -28,8 +29,18 @@ const faqJsonLd = {
 };
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} image={ogImage} type="article">
 	<article class="stay-article">
+		<img
+			class="article-hero"
+			src={heroImage}
+			alt={heroImageAlt}
+			width="1200"
+			height="630"
+			fetchpriority="high"
+			decoding="async"
+		/>
+
 		<header>
 			<h1>{title}</h1>
 			<p class="stay-keyword">타겟 키워드: {keyword}</p>
