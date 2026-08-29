@@ -422,6 +422,17 @@ const ARTICLES = [
 	['spots', 'gongju-gongsanseong-autumn', 'fortress', 'reed'],
 	['spots', 'autumn-parking-congestion', 'cityPark', 'slate'],
 	['spots', 'stroller-autumn-walk', 'trail', 'ginkgo'],
+	// spots — 가을 4차 (지역 확장 + 의도형)
+	['spots', 'naesosa-fir-trail-autumn', 'ginkgo', 'moss'],
+	['spots', 'suncheonman-reed-autumn', 'wetland', 'amber'],
+	['spots', 'jeju-saryeoni-autumn', 'trail', 'mist'],
+	['spots', 'ulsan-simnidaesup-autumn', 'silvergrass', 'moss'],
+	['spots', 'hamyang-sangnim-autumn', 'trail', 'plum'],
+	['spots', 'goesan-sanmagi-autumn', 'lake', 'amber'],
+	['spots', 'gyeryongsan-gapsa-autumn', 'ridge', 'ginkgo'],
+	['spots', 'late-autumn-trip-timing', 'village', 'slate'],
+	['spots', 'autumn-hiking-gear', 'ridge', 'mist'],
+	['spots', 'autumn-photo-timing', 'mound', 'dusk'],
 	// spots — 기존
 	['spots', 'yangjaecheon-walking-course', 'stream', 'moss'],
 	['spots', 'sejong-lake-central-park', 'lake', 'moss'],
