@@ -2,6 +2,18 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
 
+const allSpots = await getCollection('spots');
+const allStays = await getCollection('stays');
+
+function resolve(collection: 'spots' | 'stays', ids: string[]) {
+	const source = collection === 'spots' ? allSpots : allStays;
+	return ids.map((id) => {
+		const found = source.find((entry) => entry.id === id);
+		if (!found) throw new Error(`연관글 슬러그를 찾을 수 없습니다: ${collection}/${id}`);
+		return { href: `/${collection}/${found.id}/`, data: found.data };
+	});
+}
+
 export async function getStaticPaths() {
 	const stays = await getCollection('stays');
 	return stays.map((stay) => ({
@@ -13,6 +25,10 @@ export async function getStaticPaths() {
 const { stay } = Astro.props;
 const { title, description, keyword, heroImage, heroImageAlt, faq } = stay.data;
 const ogImage = `/images/og/${stay.id}.jpg`;
+const related = [
+	...resolve('spots', stay.data.relatedSpots),
+	...resolve('stays', stay.data.relatedStays),
+];
 const { Content } = await render(stay);
 
 const faqJsonLd = {
@@ -63,6 +79,33 @@ const faqJsonLd = {
 				}
 			</dl>
 		</section>
+
+		{
+			related.length > 0 && (
+				<section class="related" aria-labelledby="related-heading">
+					<h2 id="related-heading">함께 보면 좋은 글</h2>
+					<ul class="card-list">
+						{related.map((item) => (
+							<li>
+								<a href={item.href} class="card-link">
+									<img
+										class="card-thumb"
+										src={item.data.heroImage}
+										alt={item.data.heroImageAlt}
+										width="1200"
+										height="630"
+										loading="lazy"
+										decoding="async"
+									/>
+									<span class="card-title">{item.data.title}</span>
+								</a>
+								<p>{item.data.description}</p>
+							</li>
+						))}
+					</ul>
+				</section>
+			)
+		}
 	</article>
 
 	<script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />

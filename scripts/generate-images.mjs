@@ -305,6 +305,28 @@ const MOTIFS = {
 		return s;
 	},
 
+	village(rand, p, w, h) {
+		const groundY = R(h * 0.82);
+		let s = `<path d="${ridgePath(rand, { w, h: groundY, base: h * 0.46, amp: h * 0.22, peaks: 4 })}" fill="${p.far}" opacity="0.5"/>`;
+		s += `<path d="${ridgePath(rand, { w, h: groundY, base: h * 0.62, amp: h * 0.14, peaks: 6 })}" fill="${p.mid}" opacity="0.6"/>`;
+		s += `<rect x="0" y="${groundY}" width="${w}" height="${R(h - groundY)}" fill="${p.near}" opacity="0.45"/>`;
+		const houses = 5;
+		for (let i = 0; i < houses; i++) {
+			const hw = R(w * (0.09 + rand() * 0.05));
+			const hh = R(h * (0.13 + rand() * 0.07));
+			const x = R(w * (0.07 + (i * 0.83) / (houses - 1)) - hw / 2);
+			const y = R(groundY - hh);
+			s += `<rect x="${x}" y="${y}" width="${hw}" height="${hh}" fill="${p.mid}" rx="2"/>`;
+			s += `<path d="M${R(x - 8)},${y} L${R(x + hw / 2)},${R(y - hh * 0.45)} L${R(x + hw + 8)},${y} Z" fill="${p.near}"/>`;
+			for (let k = 0; k < 2; k++) {
+				s += `<rect x="${R(x + hw * (0.2 + k * 0.42))}" y="${R(y + hh * 0.32)}" width="${R(hw * 0.2)}" height="${R(hh * 0.26)}" fill="${p.accent}" opacity="0.85" rx="1"/>`;
+			}
+		}
+		for (let i = 0; i < 4; i++) s += tree(R(w * (0.14 + i * 0.24 + rand() * 0.05)), R(groundY + 16 + rand() * 22), 0.75 + rand() * 0.35, p.near, p.accent, rand);
+		s += fallingLeaves(rand, { w, h, count: 14, color: p.accent });
+		return s;
+	},
+
 	cityscape(rand, p, w, h) {
 		const groundY = R(h * 0.86);
 		let s = '';
@@ -371,6 +393,18 @@ const ARTICLES = [
 	['spots', 'sejong-lake-central-park', 'lake', 'moss'],
 	['spots', 'changgyeonggung-grand-greenhouse', 'glasshouse', 'mist'],
 	// stays
+	// stays — 가을 숙박 연관
+	['stays', 'namhansanseong-nearby-stay', 'village', 'ember'],
+	['stays', 'suwon-hwaseong-nearby-stay', 'cityscape', 'amber'],
+	['stays', 'sanjeong-lake-nearby-stay', 'village', 'reed'],
+	['stays', 'dumulmeori-nearby-stay', 'village', 'mist'],
+	['stays', 'ilsan-lake-nearby-stay', 'cityscape', 'maple'],
+	['stays', 'gwanggyo-lake-nearby-stay', 'cityscape', 'slate'],
+	['stays', 'seoulforest-nearby-stay', 'cityscape', 'ginkgo'],
+	['stays', 'seokchon-lake-nearby-stay', 'cityscape', 'plum'],
+	['stays', 'autumn-stay-booking-timing', 'village', 'amber'],
+	['stays', 'autumn-stay-location-guide', 'ridge', 'dusk'],
+	// stays — 오사카
 	['stays', 'osaka-namba-hotel-area', 'cityscape', 'dusk'],
 	['stays', 'osaka-umeda-hotel-area', 'cityscape', 'slate'],
 	['stays', 'osaka-tennoji-hotel-area', 'cityscape', 'ember'],
