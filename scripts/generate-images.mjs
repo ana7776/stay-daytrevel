@@ -305,6 +305,29 @@ const MOTIFS = {
 		return s;
 	},
 
+	mound(rand, p, w, h) {
+		const groundY = R(h * 0.8);
+		let s = `<path d="${ridgePath(rand, { w, h: groundY, base: h * 0.5, amp: h * 0.12, peaks: 5 })}" fill="${p.far}" opacity="0.4"/>`;
+		s += `<rect x="0" y="${groundY}" width="${w}" height="${R(h - groundY)}" fill="${p.mid}" opacity="0.4"/>`;
+		const domes = [
+			[0.2, 0.34, 0.2],
+			[0.52, 0.44, 0.26],
+			[0.82, 0.3, 0.18],
+			[0.36, 0.22, 0.13],
+			[0.68, 0.2, 0.12],
+		];
+		for (const [cx, dh, dw] of domes) {
+			const x = R(w * cx);
+			const ry = R(h * dh);
+			const rx = R(w * dw);
+			s += `<path d="M${R(x - rx)},${groundY} A${rx},${ry} 0 0 1 ${R(x + rx)},${groundY} Z" fill="${p.near}" opacity="0.9"/>`;
+			s += `<path d="M${R(x - rx * 0.55)},${groundY} A${R(rx * 0.55)},${R(ry * 0.9)} 0 0 1 ${R(x + rx * 0.1)},${groundY} Z" fill="${p.mid}" opacity="0.35"/>`;
+		}
+		for (let i = 0; i < 4; i++) s += tree(R(w * (0.08 + i * 0.28 + rand() * 0.04)), R(groundY + 14 + rand() * 20), 0.7 + rand() * 0.3, p.near, p.accent, rand);
+		s += fallingLeaves(rand, { w, h, count: 18, color: p.accent });
+		return s;
+	},
+
 	village(rand, p, w, h) {
 		const groundY = R(h * 0.82);
 		let s = `<path d="${ridgePath(rand, { w, h: groundY, base: h * 0.46, amp: h * 0.22, peaks: 4 })}" fill="${p.far}" opacity="0.5"/>`;
@@ -388,6 +411,17 @@ const ARTICLES = [
 	['spots', 'gwanaksan-dulle-autumn', 'ridge', 'plum'],
 	['spots', 'sanjeong-lake-autumn', 'lake', 'reed'],
 	['spots', 'yeouido-saetgang-autumn', 'wetland', 'reed'],
+	// spots — 가을 3차 (지역 확장 + 의도형)
+	['spots', 'daecheongho-autumn-walk', 'lake', 'ember'],
+	['spots', 'gyeongju-daereungwon-autumn', 'mound', 'amber'],
+	['spots', 'gangneung-gyeongpo-autumn', 'lake', 'mist'],
+	['spots', 'odaesan-seonjaegil-autumn', 'trail', 'maple'],
+	['spots', 'chuncheon-uiamho-autumn', 'lake', 'plum'],
+	['spots', 'busan-samnak-autumn', 'silvergrass', 'slate'],
+	['spots', 'daegu-apsan-autumn', 'ridge', 'ember'],
+	['spots', 'gongju-gongsanseong-autumn', 'fortress', 'reed'],
+	['spots', 'autumn-parking-congestion', 'cityPark', 'slate'],
+	['spots', 'stroller-autumn-walk', 'trail', 'ginkgo'],
 	// spots — 기존
 	['spots', 'yangjaecheon-walking-course', 'stream', 'moss'],
 	['spots', 'sejong-lake-central-park', 'lake', 'moss'],
