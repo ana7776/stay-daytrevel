@@ -2,7 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
-const spots = (await getCollection('spots')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+const spots = (await getCollection('spots')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 ---
 
 <Layout title="여행 정보 목록" description="가볼만한 곳, 산책 코스 등 여행 정보 모음">

@@ -23,13 +23,26 @@ export async function getStaticPaths() {
 }
 
 const { stay } = Astro.props;
-const { title, description, keyword, heroImage, heroImageAlt, faq } = stay.data;
+const { title, description, keyword, heroImage, heroImageAlt, pubDate, updatedDate, faq } = stay.data;
+const dateISO = pubDate.toISOString();
+const dateLabel = pubDate.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 const ogImage = `/images/og/${stay.id}.jpg`;
 const related = [
 	...resolve('spots', stay.data.relatedSpots),
 	...resolve('stays', stay.data.relatedStays),
 ];
 const { Content } = await render(stay);
+
+const articleJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'Article',
+	headline: title,
+	description,
+	datePublished: pubDate.toISOString(),
+	...(updatedDate ? { dateModified: updatedDate.toISOString() } : {}),
+	image: new URL(`/images/og/${stay.id}.jpg`, Astro.site).href,
+	mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+};
 
 const faqJsonLd = {
 	'@context': 'https://schema.org',
@@ -59,7 +72,10 @@ const faqJsonLd = {
 
 		<header>
 			<h1>{title}</h1>
-			<p class="stay-keyword">타겟 키워드: {keyword}</p>
+			<p class="stay-keyword">
+				타겟 키워드: {keyword}
+				<time datetime={dateISO}>{dateLabel}</time>
+			</p>
 		</header>
 
 		<div class="stay-content">
@@ -108,5 +124,6 @@ const faqJsonLd = {
 		}
 	</article>
 
+	<script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
 	<script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 </Layout>

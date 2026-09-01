@@ -31,6 +31,7 @@ const imageUrl = new URL(image, Astro.site);
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonical} />
+		<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
 		<link rel="stylesheet" href="/styles/global.css" />
 
 		<meta property="og:type" content={type} />

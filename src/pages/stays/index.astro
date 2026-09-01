@@ -2,7 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
-const stays = (await getCollection('stays')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+const stays = (await getCollection('stays')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 ---
 
 <Layout title="숙소 가이드 목록" description="지역별 숙소 위치 선택 가이드 모음">

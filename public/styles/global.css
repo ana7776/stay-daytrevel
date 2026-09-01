@@ -291,3 +291,17 @@ a {
 .related h2 {
 	margin-bottom: 1rem;
 }
+
+.stay-keyword time {
+	margin-left: 0.75rem;
+	padding-left: 0.75rem;
+	border-left: 1px solid var(--color-border);
+}
+
+.footer-links {
+	margin-top: 0.5rem;
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	font-size: 0.9rem;
+}

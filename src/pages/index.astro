@@ -3,8 +3,12 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-const stays = (await getCollection('stays')).sort((a, b) => a.data.title.localeCompare(b.data.title));
-const spots = (await getCollection('spots')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+const stays = (await getCollection('stays')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const spots = (await getCollection('spots')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 ---
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
