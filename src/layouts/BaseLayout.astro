@@ -2,11 +2,17 @@
 const {
   title = 'Daytrevel Stay',
   description = '여행자를 위한 숙박 큐레이션과 예약 가이드',
-  image
+  image,
+  ogType = 'website',
+  publishedTime,
+  modifiedTime,
+  jsonLd = []
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = image ? new URL(image, Astro.site).href : undefined;
+// image가 없는 글도 공유 시 썸네일이 나오도록 기본 이미지로 대체한다.
+const usingDefaultImage = !image;
+const ogImage = new URL(image ?? '/og-default.png', Astro.site).href;
 const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
 ---
 
@@ -22,17 +28,29 @@ const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="stylesheet" href="/styles/global.css" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Daytrevel Stay" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
-    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta property="og:image" content={ogImage} />
+    {/* 크기는 실제 값을 아는 기본 이미지에만 선언한다. 외부 이미지는 크기가 제각각이라
+        잘못된 값을 알리면 일부 플랫폼에서 렌더가 깨진다. */}
+    {usingDefaultImage && (
+      <>
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+      </>
+    )}
+    {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    <meta name="twitter:image" content={ogImage} />
+
+    {jsonLd.map((graph) => <script type="application/ld+json" set:html={JSON.stringify(graph)} />)}
 
     {adsenseClient && (
       <script
@@ -57,6 +75,10 @@ const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
     </main>
     <footer class="site-footer">
       <p>Daytrevel Stay는 일부 링크에서 제휴 수수료를 받을 수 있습니다.</p>
+      <nav aria-label="사이트 정보">
+        <a href="/privacy/">개인정보처리방침</a>
+        <a href="/contact/">문의</a>
+      </nav>
     </footer>
   </body>
 </html>

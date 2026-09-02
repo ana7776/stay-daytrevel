@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { articleJsonLd, breadcrumbJsonLd, faqJsonLd } from '../../lib/seo.js';
 
 export async function getStaticPaths() {
   const stays = await getCollection('stays');
@@ -13,25 +15,32 @@ export async function getStaticPaths() {
 
 const { stay } = Astro.props;
 const { Content } = await render(stay);
-const faqJson = stay.data.faq.length
-  ? {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: stay.data.faq.map((item) => ({
-        '@type': 'Question',
-        name: item.q,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: item.a
-        }
-      }))
-    }
-  : null;
+
+const path = `/stays/${stay.id}/`;
+const crumbs = [
+  { name: '홈', path: '/' },
+  { name: '숙소 가이드', path: '/stays/' },
+  { name: stay.data.title }
+];
+
+const jsonLd = [
+  articleJsonLd({ data: stay.data, path }),
+  breadcrumbJsonLd(crumbs),
+  ...(stay.data.faq.length ? [faqJsonLd(stay.data.faq)] : [])
+];
 ---
 
-<BaseLayout title={`${stay.data.title} | Daytrevel Stay`} description={stay.data.description} image={stay.data.image}>
-  {faqJson && <script type="application/ld+json" set:html={JSON.stringify(faqJson)} />}
+<BaseLayout
+  title={`${stay.data.title} | Daytrevel Stay`}
+  description={stay.data.description}
+  image={stay.data.image}
+  ogType="article"
+  publishedTime={stay.data.pubDate}
+  modifiedTime={stay.data.updatedDate ?? stay.data.pubDate}
+  jsonLd={jsonLd}
+>
   <article class="article">
+    <Breadcrumbs crumbs={crumbs} />
     <p class="meta">{stay.data.country} · {stay.data.city}</p>
     <h1>{stay.data.title}</h1>
     <p class="lead">{stay.data.description}</p>
