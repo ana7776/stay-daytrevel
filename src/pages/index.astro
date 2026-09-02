@@ -2,12 +2,26 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { websiteJsonLd, collectionPageJsonLd } from '../lib/seo';
 
 const stays = (await getCollection('stays')).sort((a, b) => a.data.title.localeCompare(b.data.title));
 const spots = (await getCollection('spots')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const jsonLd = [
+	websiteJsonLd(),
+	collectionPageJsonLd({
+		name: SITE_TITLE,
+		description: SITE_DESCRIPTION,
+		path: '/',
+		items: [
+			...stays.map((stay) => ({ title: stay.data.title, path: `/stays/${stay.id}/` })),
+			...spots.map((spot) => ({ title: spot.data.title, path: `/spots/${spot.id}/` })),
+		],
+	}),
+];
 ---
 
-<Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+<Layout title={SITE_TITLE} description={SITE_DESCRIPTION} jsonLd={jsonLd}>
 	<section class="hero">
 		<h1>{SITE_TITLE}</h1>
 		<p>지역별 숙소 위치를 고르는 기준과 이동 동선, 가볼만한 곳을 정리한 정보성 가이드입니다.</p>

@@ -1,11 +1,28 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection } from 'astro:content';
+import { breadcrumbJsonLd, collectionPageJsonLd } from '../../lib/seo';
 
 const stays = (await getCollection('stays')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const title = '숙소 가이드 목록';
+const description = '오사카 등 지역별로 숙소 위치를 고르는 기준과 이동 동선을 정리한 가이드 모음';
+const crumbs = [{ name: '홈', path: '/' }, { name: '숙소 가이드' }];
+
+const jsonLd = [
+	collectionPageJsonLd({
+		name: title,
+		description,
+		path: '/stays/',
+		items: stays.map((stay) => ({ title: stay.data.title, path: `/stays/${stay.id}/` })),
+	}),
+	breadcrumbJsonLd(crumbs),
+];
 ---
 
-<Layout title="숙소 가이드 목록" description="지역별 숙소 위치 선택 가이드 모음">
+<Layout title={title} description={description} jsonLd={jsonLd}>
+	<Breadcrumbs crumbs={crumbs} />
 	<h1>숙소 가이드</h1>
 	<ul class="stay-list">
 		{

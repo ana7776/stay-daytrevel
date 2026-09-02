@@ -192,3 +192,41 @@ a {
 		padding: 1.25rem 1rem 2.5rem;
 	}
 }
+
+.breadcrumbs {
+	margin-bottom: 1rem;
+	font-size: 0.85rem;
+	color: #5a6b70;
+}
+
+.breadcrumbs ol {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.breadcrumbs li + li::before {
+	content: '›';
+	margin-right: 0.35rem;
+	color: #9aa8ac;
+}
+
+.breadcrumbs a {
+	color: inherit;
+}
+
+.article-dates {
+	margin-top: 0.35rem;
+	font-size: 0.85rem;
+	color: #5a6b70;
+}
+
+.footer-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	margin-top: 0.6rem;
+}

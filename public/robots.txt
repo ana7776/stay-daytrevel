@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stay.daytrevel.com/sitemap-index.xml

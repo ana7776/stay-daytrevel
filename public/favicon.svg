@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Stay Daytrevel">
+  <rect width="64" height="64" rx="14" fill="#0f2f3d"/>
+  <path d="M32 12 52 30h-6v20H18V30h-6z" fill="#5ec6c0"/>
+  <rect x="24" y="34" width="16" height="4" rx="2" fill="#0f2f3d"/>
+  <rect x="24" y="40" width="16" height="8" rx="2" fill="#0f2f3d"/>
+</svg>

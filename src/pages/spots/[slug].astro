@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection, render } from 'astro:content';
+import { articleJsonLd, breadcrumbJsonLd, faqJsonLd } from '../../lib/seo';
 
 export async function getStaticPaths() {
 	const spots = await getCollection('spots');
@@ -11,28 +13,51 @@ export async function getStaticPaths() {
 }
 
 const { spot } = Astro.props;
-const { title, description, keyword, faq } = spot.data;
+const { title, description, keyword, faq, pubDate, updatedDate } = spot.data;
 const { Content } = await render(spot);
 
-const faqJsonLd = {
-	'@context': 'https://schema.org',
-	'@type': 'FAQPage',
-	mainEntity: faq.map((item) => ({
-		'@type': 'Question',
-		name: item.q,
-		acceptedAnswer: {
-			'@type': 'Answer',
-			text: item.a,
-		},
-	})),
-};
+const path = `/spots/${spot.id}/`;
+const crumbs = [
+	{ name: '홈', path: '/' },
+	{ name: '여행 정보', path: '/spots/' },
+	{ name: title },
+];
+
+const jsonLd = [
+	articleJsonLd({ title, description, path, keyword, pubDate, updatedDate }),
+	breadcrumbJsonLd(crumbs),
+	faqJsonLd(faq),
+];
+
+const dateFormat = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'long' });
 ---
 
-<Layout title={title} description={description}>
+<Layout
+	title={title}
+	description={description}
+	ogType="article"
+	publishedTime={pubDate}
+	modifiedTime={updatedDate ?? pubDate}
+	jsonLd={jsonLd}
+>
 	<article class="stay-article">
+		<Breadcrumbs crumbs={crumbs} />
 		<header>
 			<h1>{title}</h1>
 			<p class="stay-keyword">타겟 키워드: {keyword}</p>
+			{
+				pubDate && (
+					<p class="article-dates">
+						<time datetime={pubDate.toISOString()}>{dateFormat.format(pubDate)} 작성</time>
+						{updatedDate && (
+							<>
+								{' · '}
+								<time datetime={updatedDate.toISOString()}>{dateFormat.format(updatedDate)} 업데이트</time>
+							</>
+						)}
+					</p>
+				)
+			}
 		</header>
 
 		<div class="stay-content">
@@ -53,6 +78,4 @@ const faqJsonLd = {
 			</dl>
 		</section>
 	</article>
-
-	<script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 </Layout>
