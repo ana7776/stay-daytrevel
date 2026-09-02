@@ -220,8 +220,14 @@ h2 {
 
 table {
   width: 100%;
-  min-width: 640px;
   border-collapse: collapse;
+}
+
+/* min-width는 가로 스크롤을 제공하는 .table-wrap 안에서만 적용한다.
+   마크다운 표는 래퍼 없이 렌더되므로, 여기에 min-width가 걸리면
+   좁은 화면에서 페이지 전체가 가로로 밀린다. */
+.table-wrap table {
+  min-width: 640px;
 }
 
 th,
