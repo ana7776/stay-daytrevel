@@ -1,81 +1,64 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection, render } from 'astro:content';
-import { articleJsonLd, breadcrumbJsonLd, faqJsonLd } from '../../lib/seo';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
-	const stays = await getCollection('stays');
-	return stays.map((stay) => ({
-		params: { slug: stay.id },
-		props: { stay },
-	}));
+  const stays = await getCollection('stays');
+
+  return stays.map((stay) => ({
+    params: { slug: stay.id },
+    props: { stay }
+  }));
 }
 
 const { stay } = Astro.props;
-const { title, description, keyword, faq, pubDate, updatedDate } = stay.data;
 const { Content } = await render(stay);
-
-const path = `/stays/${stay.id}/`;
-const crumbs = [
-	{ name: '홈', path: '/' },
-	{ name: '숙소 가이드', path: '/stays/' },
-	{ name: title },
-];
-
-const jsonLd = [
-	articleJsonLd({ title, description, path, keyword, pubDate, updatedDate }),
-	breadcrumbJsonLd(crumbs),
-	faqJsonLd(faq),
-];
-
-const dateFormat = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'long' });
+const faqJson = stay.data.faq.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: stay.data.faq.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.a
+        }
+      }))
+    }
+  : null;
 ---
 
-<Layout
-	title={title}
-	description={description}
-	ogType="article"
-	publishedTime={pubDate}
-	modifiedTime={updatedDate ?? pubDate}
-	jsonLd={jsonLd}
->
-	<article class="stay-article">
-		<Breadcrumbs crumbs={crumbs} />
-		<header>
-			<h1>{title}</h1>
-			<p class="stay-keyword">타겟 키워드: {keyword}</p>
-			{
-				pubDate && (
-					<p class="article-dates">
-						<time datetime={pubDate.toISOString()}>{dateFormat.format(pubDate)} 작성</time>
-						{updatedDate && (
-							<>
-								{' · '}
-								<time datetime={updatedDate.toISOString()}>{dateFormat.format(updatedDate)} 업데이트</time>
-							</>
-						)}
-					</p>
-				)
-			}
-		</header>
-
-		<div class="stay-content">
-			<Content />
-		</div>
-
-		<section class="faq" aria-labelledby="faq-heading">
-			<h2 id="faq-heading">자주 묻는 질문</h2>
-			<dl>
-				{
-					faq.map((item) => (
-						<div class="faq-item">
-							<dt>{item.q}</dt>
-							<dd>{item.a}</dd>
-						</div>
-					))
-				}
-			</dl>
-		</section>
-	</article>
-</Layout>
+<BaseLayout title={`${stay.data.title} | Daytrevel Stay`} description={stay.data.description} image={stay.data.image}>
+  {faqJson && <script type="application/ld+json" set:html={JSON.stringify(faqJson)} />}
+  <article class="article">
+    <p class="meta">{stay.data.country} · {stay.data.city}</p>
+    <h1>{stay.data.title}</h1>
+    <p class="lead">{stay.data.description}</p>
+    {stay.data.image && (
+      <figure class="article-image">
+        <img src={stay.data.image} alt={stay.data.imageAlt ?? stay.data.title} loading="eager" />
+        {(stay.data.imageCredit || stay.data.imageSource) && (
+          <figcaption>
+            {stay.data.imageCredit && <span>{stay.data.imageCredit}</span>}
+            {stay.data.imageSource && (
+              <a href={stay.data.imageSource} target="_blank" rel="noreferrer">이미지 출처</a>
+            )}
+          </figcaption>
+        )}
+      </figure>
+    )}
+    <Content />
+    {stay.data.faq.length > 0 && (
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">자주 묻는 질문</h2>
+        {stay.data.faq.map((item) => (
+          <details>
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </section>
+    )}
+  </article>
+</BaseLayout>

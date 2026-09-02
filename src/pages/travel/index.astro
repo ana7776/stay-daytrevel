@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const guides = await getCollection('travel');
+const sortedGuides = guides.sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+---
+
+<BaseLayout title="여행지 가이드 | Daytrevel Stay" description="계절별 여행지 동선과 방문 전 체크리스트 모음">
+  <section class="page-head">
+    <p class="eyebrow">Travel Guides</p>
+    <h1>여행지 가이드</h1>
+    <p>세부 키워드와 계절성을 기준으로 여행지 특징, 이동 동선, 방문 전 체크 포인트를 정리합니다.</p>
+  </section>
+
+  <section class="list">
+    {sortedGuides.map((guide) => (
+      <article class="list-item">
+        {guide.data.image && (
+          <img class="list-image" src={guide.data.image} alt={guide.data.imageAlt ?? guide.data.title} loading="lazy" />
+        )}
+        <p class="meta">{[guide.data.country, guide.data.city, guide.data.season].filter(Boolean).join(' · ')}</p>
+        <h2><a href={`/travel/${guide.id}/`}>{guide.data.title}</a></h2>
+        <p>{guide.data.description}</p>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

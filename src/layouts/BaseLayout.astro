@@ -1,0 +1,62 @@
+---
+const {
+  title = 'Daytrevel Stay',
+  description = '여행자를 위한 숙박 큐레이션과 예약 가이드',
+  image
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
+const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="stylesheet" href="/styles/global.css" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Daytrevel Stay" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    {adsenseClient && (
+      <script
+        is:inline
+        async
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
+        crossorigin="anonymous"
+      />
+    )}
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">Daytrevel Stay</a>
+      <nav aria-label="주요 메뉴">
+        <a href="/stays/">숙소 가이드</a>
+        <a href="/travel/">여행지 가이드</a>
+        <a href="https://daytrevel.com">Daytrevel</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>Daytrevel Stay는 일부 링크에서 제휴 수수료를 받을 수 있습니다.</p>
+    </footer>
+  </body>
+</html>
