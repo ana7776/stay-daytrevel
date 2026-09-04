@@ -21,6 +21,7 @@ const spots = defineCollection({
 		title: z.string(),
 		description: z.string(),
 		keyword: z.string(),
+		affiliateReady: z.boolean().default(false),
 		pubDate: z.coerce.date().optional(),
 		updatedDate: z.coerce.date().optional(),
 		faq: z.array(z.object({ q: z.string(), a: z.string() })).min(4).max(6),
