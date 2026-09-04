@@ -111,6 +111,15 @@ a {
 	font-size: 0.9rem;
 }
 
+.stay-hero {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 8px;
+	border: 1px solid var(--color-border);
+	margin: 1.25rem 0 1.75rem;
+}
+
 .stay-content table {
 	display: block;
 	width: 100%;

@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
 	const spots = await getCollection('spots');
@@ -11,7 +12,7 @@ export async function getStaticPaths() {
 }
 
 const { spot } = Astro.props;
-const { title, description, keyword, faq } = spot.data;
+const { title, description, keyword, faq, heroImage } = spot.data;
 const { Content } = await render(spot);
 
 const faqJsonLd = {
@@ -34,6 +35,8 @@ const faqJsonLd = {
 			<h1>{title}</h1>
 			<p class="stay-keyword">타겟 키워드: {keyword}</p>
 		</header>
+
+		{heroImage && <Image class="stay-hero" width={1020} height={510} src={heroImage} alt={title} />}
 
 		<div class="stay-content">
 			<Content />
