@@ -33,6 +33,11 @@ const QUERIES = {
 	'towangseong-falls': 'tall waterfall mountain cliff korea',
 	'honggildong-theme-park': 'traditional korean folk village theme park',
 	'jeongnyeongchi-rest-area': 'mountain pass road scenic drive korea',
+	'lee-byungchul-birthplace': 'traditional korean hanok house courtyard',
+	'bokcheon-museum': 'ancient burial mound museum artifacts korea',
+	'seoripul-park': 'city forest walking trail urban park korea',
+	'chuncheon-waterfront-park': 'lake shore walking path city korea',
+	'gulpocheon-stream': 'urban stream walking path waterway korea',
 
 	// stays (해외 숙소 지역: TourAPI 대상 아님, Pexels 로 분위기 사진)
 	'osaka-namba-hotel-area': 'osaka namba dotonbori street night',

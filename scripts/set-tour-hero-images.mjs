@@ -57,6 +57,11 @@ const KEYWORDS = {
 	'towangseong-falls': { keywords: ['토왕성폭포'], areaCode: AREA.강원, match: '토왕성폭포' },
 	'honggildong-theme-park': { keywords: ['홍길동테마파크', '홍길동생가'], areaCode: AREA.전남, match: '홍길동' },
 	'jeongnyeongchi-rest-area': { keywords: ['정령치'], match: '정령치' },
+	'lee-byungchul-birthplace': { keywords: ['이병철 생가', '이병철생가'], areaCode: AREA.경남, match: '이병철' },
+	'bokcheon-museum': { keywords: ['복천박물관'], areaCode: AREA.부산, match: '복천박물관' },
+	'seoripul-park': { keywords: ['서리풀공원', '몽마르뜨공원'], areaCode: AREA.서울, match: '서리풀' },
+	'chuncheon-waterfront-park': { keywords: ['춘천수변공원', '의암호'], areaCode: AREA.강원, match: '수변공원' },
+	'gulpocheon-stream': { keywords: ['굴포천'], match: '굴포천' },
 
 	// stays (국내 지역만 대상. 오사카 등 해외 숙소 지역은 Pexels 로 폴백)
 };

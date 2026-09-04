@@ -44,6 +44,11 @@ const KEYWORDS = {
 	'towangseong-falls': { keywords: ['토왕성폭포'], match: '토왕성폭포' },
 	'honggildong-theme-park': { keywords: ['홍길동테마파크', '홍길동생가'], match: '홍길동' },
 	'jeongnyeongchi-rest-area': { keywords: ['정령치'], match: '정령치' },
+	'lee-byungchul-birthplace': { keywords: ['이병철 생가', '이병철생가'], match: '이병철' },
+	'bokcheon-museum': { keywords: ['복천박물관'], match: '복천박물관' },
+	'seoripul-park': { keywords: ['서리풀공원', '몽마르뜨공원'], match: '서리풀' },
+	'chuncheon-waterfront-park': { keywords: ['춘천수변공원', '의암호'], match: '수변공원' },
+	'gulpocheon-stream': { keywords: ['굴포천'], match: '굴포천' },
 };
 
 const BASE = 'https://apis.data.go.kr/B551011/PhotoGalleryService1';
