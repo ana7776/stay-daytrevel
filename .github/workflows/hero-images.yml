@@ -17,7 +17,7 @@ on:
         required: false
         default: 'false'
       tour_only:
-        description: 'TourAPI 만 쓰기 (실패해도 Pexels 로 덮어쓰지 않음)'
+        description: '한국관광공사 소스(TourAPI+관광사진갤러리)만 쓰기 (실패해도 Pexels 로 덮어쓰지 않음)'
         required: false
         default: 'false'
 
@@ -38,9 +38,10 @@ jobs:
 
       - run: npm ci
 
-      - name: 이미지 수집 (TourAPI 우선, 실패 시 Pexels)
+      - name: 이미지 수집 (TourAPI → 관광사진갤러리 → Pexels)
         env:
           TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
+          TOUR_PHOTO_API_KEY: ${{ secrets.TOUR_PHOTO_API_KEY }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           SLUGS: ${{ inputs.slugs }}
           FORCE: ${{ inputs.force }}
