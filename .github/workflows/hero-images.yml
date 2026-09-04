@@ -34,9 +34,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
 
-      - run: npm ci
+      - run: npm install
 
       - name: 이미지 수집 (TourAPI → 관광사진갤러리 → Pexels)
         env:
