@@ -1,0 +1,65 @@
+name: 히어로 이미지 채우기
+
+# Actions 탭에서 수동으로 실행합니다. 실행한 브랜치에 그대로 커밋됩니다.
+on:
+  workflow_dispatch:
+    inputs:
+      slugs:
+        description: '대상 슬러그 (쉼표 구분). 비워두면 heroImage 가 없는 글 전체'
+        required: false
+        default: ''
+      dry_run:
+        description: '진단 모드: 이미지만 받아보고 빌드·커밋은 건너뜁니다'
+        required: false
+        default: 'false'
+      force:
+        description: '이미 heroImage 가 있는 글도 다시 받기'
+        required: false
+        default: 'false'
+      tour_only:
+        description: 'TourAPI 만 쓰기 (실패해도 Pexels 로 덮어쓰지 않음)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+
+jobs:
+  fill-hero-images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: 이미지 수집 (TourAPI 우선, 실패 시 Pexels)
+        env:
+          TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          SLUGS: ${{ inputs.slugs }}
+          FORCE: ${{ inputs.force }}
+          TOUR_ONLY: ${{ inputs.tour_only }}
+        run: node scripts/fill-hero-images.mjs $SLUGS
+
+      - name: 빌드 검증
+        if: inputs.dry_run != 'true'
+        run: npm run build
+
+      - name: 변경사항 커밋
+        if: inputs.dry_run != 'true'
+        run: |
+          if git diff --quiet; then
+            echo "변경된 파일이 없습니다."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content/spots src/content/stays
+          git commit -m "히어로 이미지 추가 (TourAPI / Pexels)"
+          git push origin HEAD:${{ github.ref_name }}

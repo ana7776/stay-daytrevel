@@ -8,10 +8,14 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "images:fill": "node --env-file=.env scripts/fill-hero-images.mjs",
+    "images:tour": "node --env-file=.env scripts/set-tour-hero-images.mjs",
+    "images:pexels": "node --env-file=.env scripts/set-hero-images.mjs"
   },
   "dependencies": {
     "astro": "^7.2.0",
-    "@astrojs/mdx": "^7.0.5"
+    "@astrojs/mdx": "^7.0.5",
+    "sharp": "^0.35.0"
   }
 }
