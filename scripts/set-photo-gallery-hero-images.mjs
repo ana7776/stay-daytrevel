@@ -39,6 +39,11 @@ const KEYWORDS = {
 	gyeonggyojang: { keywords: ['경교장'], match: '경교장' },
 	'seongju-hangae-village': { keywords: ['한개마을', '성주 한개마을'], match: '한개마을' },
 	'samok-ferry-terminal': { keywords: ['삼목선착장', '삼목항'], match: '삼목' },
+	'gadeok-undersea-tunnel': { keywords: ['거가대교', '가덕해저터널'], match: '거가대교' },
+	'upo-wetland-eco-center': { keywords: ['우포늪'], match: '우포늪' },
+	'towangseong-falls': { keywords: ['토왕성폭포'], match: '토왕성폭포' },
+	'honggildong-theme-park': { keywords: ['홍길동테마파크', '홍길동생가'], match: '홍길동' },
+	'jeongnyeongchi-rest-area': { keywords: ['정령치'], match: '정령치' },
 };
 
 const BASE = 'https://apis.data.go.kr/B551011/PhotoGalleryService1';

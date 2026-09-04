@@ -28,6 +28,11 @@ const QUERIES = {
 	'gyeonggyojang': 'historic korean building city',
 	'seongju-hangae-village': 'traditional korean hanok village',
 	'samok-ferry-terminal': 'ferry terminal island coast korea',
+	'gadeok-undersea-tunnel': 'undersea tunnel bridge coastal highway korea',
+	'upo-wetland-eco-center': 'wetland marsh reeds nature korea',
+	'towangseong-falls': 'tall waterfall mountain cliff korea',
+	'honggildong-theme-park': 'traditional korean folk village theme park',
+	'jeongnyeongchi-rest-area': 'mountain pass road scenic drive korea',
 
 	// stays (해외 숙소 지역: TourAPI 대상 아님, Pexels 로 분위기 사진)
 	'osaka-namba-hotel-area': 'osaka namba dotonbori street night',

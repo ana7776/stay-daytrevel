@@ -52,6 +52,11 @@ const KEYWORDS = {
 	'gyeonggyojang': { keywords: ['경교장'], areaCode: AREA.서울, match: '경교장' },
 	'seongju-hangae-village': { keywords: ['한개마을', '성주 한개마을'], areaCode: AREA.경북, match: '한개마을' },
 	'samok-ferry-terminal': { keywords: ['삼목선착장', '삼목항'], areaCode: AREA.인천, match: '삼목' },
+	'gadeok-undersea-tunnel': { keywords: ['거가대교', '가덕해저터널'], areaCode: AREA.부산, match: '거가대교' },
+	'upo-wetland-eco-center': { keywords: ['우포늪'], areaCode: AREA.경남, match: '우포늪' },
+	'towangseong-falls': { keywords: ['토왕성폭포'], areaCode: AREA.강원, match: '토왕성폭포' },
+	'honggildong-theme-park': { keywords: ['홍길동테마파크', '홍길동생가'], areaCode: AREA.전남, match: '홍길동' },
+	'jeongnyeongchi-rest-area': { keywords: ['정령치'], match: '정령치' },
 
 	// stays (국내 지역만 대상. 오사카 등 해외 숙소 지역은 Pexels 로 폴백)
 };
