@@ -38,6 +38,11 @@ const QUERIES = {
 	'seoripul-park': 'city forest walking trail urban park korea',
 	'chuncheon-waterfront-park': 'lake shore walking path city korea',
 	'gulpocheon-stream': 'urban stream walking path waterway korea',
+	cheongnamdae: 'lakeside villa garden hills korea',
+	hyeonchungsa: 'korean historic shrine ginkgo tree path',
+	'gyejoksan-hwangtogil': 'red clay forest trail barefoot walking korea',
+	'ulsan-grand-park': 'city park rose garden lawn korea',
+	'andeok-valley': 'evergreen forest valley stream jeju korea',
 
 	// stays (해외 숙소 지역: TourAPI 대상 아님, Pexels 로 분위기 사진)
 	'osaka-namba-hotel-area': 'osaka namba dotonbori street night',

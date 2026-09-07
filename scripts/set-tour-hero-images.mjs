@@ -62,6 +62,11 @@ const KEYWORDS = {
 	'seoripul-park': { keywords: ['서리풀공원', '몽마르뜨공원'], areaCode: AREA.서울, match: '서리풀' },
 	'chuncheon-waterfront-park': { keywords: ['춘천수변공원', '의암호'], areaCode: AREA.강원, match: '수변공원' },
 	'gulpocheon-stream': { keywords: ['굴포천'], match: '굴포천' },
+	cheongnamdae: { keywords: ['청남대'], areaCode: AREA.충북, match: '청남대' },
+	hyeonchungsa: { keywords: ['현충사'], areaCode: AREA.충남, match: '현충사' },
+	'gyejoksan-hwangtogil': { keywords: ['계족산 황톳길', '계족산'], areaCode: AREA.대전, match: '계족산' },
+	'ulsan-grand-park': { keywords: ['울산대공원'], areaCode: AREA.울산, match: '울산대공원' },
+	'andeok-valley': { keywords: ['안덕계곡'], areaCode: AREA.제주, match: '안덕계곡' },
 
 	// stays (국내 지역만 대상. 오사카 등 해외 숙소 지역은 Pexels 로 폴백)
 };

@@ -49,6 +49,11 @@ const KEYWORDS = {
 	'seoripul-park': { keywords: ['서리풀공원', '몽마르뜨공원'], match: '서리풀' },
 	'chuncheon-waterfront-park': { keywords: ['춘천수변공원', '의암호'], match: '수변공원' },
 	'gulpocheon-stream': { keywords: ['굴포천'], match: '굴포천' },
+	cheongnamdae: { keywords: ['청남대'], match: '청남대' },
+	hyeonchungsa: { keywords: ['현충사'], match: '현충사' },
+	'gyejoksan-hwangtogil': { keywords: ['계족산 황톳길', '계족산'], match: '계족산' },
+	'ulsan-grand-park': { keywords: ['울산대공원'], match: '울산대공원' },
+	'andeok-valley': { keywords: ['안덕계곡'], match: '안덕계곡' },
 };
 
 const BASE = 'https://apis.data.go.kr/B551011/PhotoGalleryService1';
