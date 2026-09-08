@@ -38,12 +38,32 @@ const QUERIES = {
 	'seoripul-park': 'city forest walking trail urban park korea',
 	'chuncheon-waterfront-park': 'lake shore walking path city korea',
 	'gulpocheon-stream': 'urban stream walking path waterway korea',
+	'ochang-rest-area': 'highway rest area service korea',
+	'muju-hyangnosan-recreation-forest': 'forest cabin recreation korea mountain',
+	'incheon-metropolitan-museum': 'city museum exhibition hall korea',
+	'wolgot-fishing-port': 'small fishing port boats sunset korea',
+	'wondong-station-plum-village': 'plum blossom riverside train tracks korea',
+	'jirisan-jungsanri-course': 'mountain ridge hiking trail korea',
+	'descendants-of-the-sun-filming-site': 'old coal mine industrial art complex korea',
+	'yunjerim-forest-garden': 'cypress forest healing trail korea',
+	'jwagusan-recreation-forest': 'observatory mountain night sky korea',
+	'chunhyang-rest-area': 'highway rest area service korea',
+	'hwanggeumsan-elephant-rock': 'coastal rock formation sunset beach korea',
+	'yangpyeong-cheongchun-museum': 'retro museum exhibition hall korea',
+	'suseongdong-valley': 'small mountain valley stream city korea',
+	'hanam-union-park': 'observation tower riverside park korea',
+	'yeongcheon-rest-area': 'highway rest area service korea',
+	'seocheon-seafood-market': 'seafood traditional market korea',
+	'hamyang-rest-area': 'highway rest area service korea',
+	'namhae-sangsang-sheep-farm': 'sheep pasture forest countryside korea',
+	'hongje-waterfall': 'urban artificial waterfall city park korea',
 
 	// stays (해외 숙소 지역: TourAPI 대상 아님, Pexels 로 분위기 사진)
 	'osaka-namba-hotel-area': 'osaka namba dotonbori street night',
 	'osaka-umeda-hotel-area': 'osaka umeda skyline city',
 	'osaka-tennoji-hotel-area': 'osaka tennoji park tower',
 	'osaka-shinosaka-hotel-area': 'osaka shin-osaka station',
+	'japan-accommodation-tax': 'japan hotel room city skyline',
 };
 
 const CONTENT_DIRS = [path.join('src', 'content', 'spots'), path.join('src', 'content', 'stays')];
