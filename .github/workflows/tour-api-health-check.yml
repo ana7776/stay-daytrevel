@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
       - name: TourAPI 호출 확인 (세종호수공원)
         env:
           TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
