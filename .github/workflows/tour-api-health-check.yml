@@ -1,0 +1,28 @@
+name: TourAPI 키 상태 점검
+
+# 매달 1일, 이미 알려진 장소(세종호수공원)로 TourAPI 호출을 한 번 해보고
+# 실패하면 워크플로 자체가 빨간불로 끝난다. GitHub이 예약 실행 실패를
+# 저장소 소유자에게 자동으로 이메일 알려주므로, 키가 실제로 만료되거나
+# 활용신청 상태가 바뀌었을 때 내년까지 모르고 지나가는 일을 막기 위한 것.
+#
+# 주의: data.go.kr 은 가끔 연결 자체가 실패하는 간헐적 문제가 있어(스크립트
+# 안에 재시도 로직이 있는 이유), 한 번 빨간불이 떴다고 바로 키가 죽었다고
+# 단정하지 말 것 — Actions 탭에서 이 워크플로를 다시 실행(Re-run)해보고
+# 그래도 안 되면 그때 data.go.kr 마이페이지에서 활용신청 상태를 확인한다.
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+  workflow_dispatch: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: TourAPI 호출 확인 (세종호수공원)
+        env:
+          TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
+        run: node scripts/set-tour-hero-images.mjs sejong-lake-central-park '세종호수공원' --check-only
