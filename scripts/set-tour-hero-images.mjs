@@ -318,7 +318,9 @@ async function defaultSpecFor(slug) {
 }
 
 async function main() {
-	const [, , argSlug, argKeyword] = process.argv;
+	const checkOnly = process.argv.includes('--check-only');
+	const [, , argSlug, rawArgKeyword] = process.argv;
+	const argKeyword = rawArgKeyword === '--check-only' ? undefined : rawArgKeyword;
 	const slugs = argSlug ? [argSlug] : Object.keys(KEYWORDS);
 
 	let ok = 0;
@@ -336,6 +338,14 @@ async function main() {
 			if (!found) {
 				console.warn('  검증을 통과한 사진이 없어 건너뜁니다 (Pexels 로 폴백)');
 				failed++;
+				continue;
+			}
+
+			// --check-only: TourAPI 키가 살아있는지만 확인하는 상태 점검용 실행이라
+			// glob 파일을 건드리지 않는다 (tour-api-health-check.yml 참고).
+			if (checkOnly) {
+				console.log(`  OK (${found.spot.title} / ${found.spot.addr1 ?? ''}) — check-only라 파일은 그대로 둔다`);
+				ok++;
 				continue;
 			}
 
