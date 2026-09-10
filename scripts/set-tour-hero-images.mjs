@@ -140,8 +140,14 @@ async function callApi(op, params) {
 		throw new Error(`Non-JSON response from ${op} (check TOUR_API_KEY): ${text.slice(0, 200)}`);
 	}
 	const header = json.response?.header;
-	if (header?.resultCode !== '0000') {
-		throw new Error(`TourAPI error on ${op}: ${header?.resultCode} ${header?.resultMsg}`);
+	if (!header) {
+		// data.go.kr은 서비스키 자체에 문제가 있을 때(미등록·미승인·트래픽 초과 등)
+		// response.header가 아니라 완전히 다른 공통 오류 포맷(cmmMsgHeader)을 돌려준다.
+		// 정상 응답 포맷을 가정한 메시지로는 원인을 알 수 없으니 원문을 그대로 보여준다.
+		throw new Error(`TourAPI unexpected response shape on ${op} (service key 문제일 가능성): ${text.slice(0, 300)}`);
+	}
+	if (header.resultCode !== '0000') {
+		throw new Error(`TourAPI error on ${op}: ${header.resultCode} ${header.resultMsg}`);
 	}
 	const body = json.response.body;
 	const items = body.items === '' ? [] : body.items.item;
