@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { articleJsonLd, breadcrumbJsonLd, faqJsonLd } from '../../lib/seo.js';
 
 export async function getStaticPaths() {
   const guides = await getCollection('travel');
@@ -13,25 +15,32 @@ export async function getStaticPaths() {
 
 const { guide } = Astro.props;
 const { Content } = await render(guide);
-const faqJson = guide.data.faq.length
-  ? {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: guide.data.faq.map((item) => ({
-        '@type': 'Question',
-        name: item.q,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: item.a
-        }
-      }))
-    }
-  : null;
+
+const path = `/travel/${guide.id}/`;
+const crumbs = [
+  { name: '홈', path: '/' },
+  { name: '여행지 가이드', path: '/travel/' },
+  { name: guide.data.title }
+];
+
+const jsonLd = [
+  articleJsonLd({ data: guide.data, path }),
+  breadcrumbJsonLd(crumbs),
+  ...(guide.data.faq.length ? [faqJsonLd(guide.data.faq)] : [])
+];
 ---
 
-<BaseLayout title={`${guide.data.title} | Daytrevel Stay`} description={guide.data.description} image={guide.data.image}>
-  {faqJson && <script type="application/ld+json" set:html={JSON.stringify(faqJson)} />}
+<BaseLayout
+  title={`${guide.data.title} | Daytrevel Stay`}
+  description={guide.data.description}
+  image={guide.data.image}
+  ogType="article"
+  publishedTime={guide.data.pubDate}
+  modifiedTime={guide.data.updatedDate ?? guide.data.pubDate}
+  jsonLd={jsonLd}
+>
   <article class="article">
+    <Breadcrumbs crumbs={crumbs} />
     <p class="meta">{[guide.data.country, guide.data.city, guide.data.season].filter(Boolean).join(' · ')}</p>
     <h1>{guide.data.title}</h1>
     <p class="lead">{guide.data.description}</p>
