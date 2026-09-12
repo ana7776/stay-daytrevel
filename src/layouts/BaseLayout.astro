@@ -52,6 +52,21 @@ const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
         <a href="https://daytrevel.com">Daytrevel</a>
       </nav>
     </header>
+    {adsenseClient && (
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client={adsenseClient}
+        data-ad-slot="6912286418"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+    )}
+    {adsenseClient && (
+      <script is:inline>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    )}
     <main>
       <slot />
     </main>
