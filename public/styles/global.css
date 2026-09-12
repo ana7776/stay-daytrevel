@@ -304,3 +304,37 @@ tr:last-child td {
     grid-template-columns: 1fr;
   }
 }
+
+.breadcrumbs {
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  color: #6b6259;
+}
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumbs li + li::before {
+  content: '›';
+  margin-right: 6px;
+  color: #a89c8c;
+}
+
+.breadcrumbs a {
+  color: inherit;
+}
+
+/* 현재 글 제목은 바로 아래 h1과 중복되므로 한 줄로 줄인다.
+   텍스트는 DOM에 그대로 남아 구조화 데이터와 일치한다. */
+.breadcrumbs li:last-child {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
