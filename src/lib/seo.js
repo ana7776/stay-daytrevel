@@ -38,7 +38,7 @@ export function faqJsonLd(faq) {
   };
 }
 
-export function articleJsonLd({ data, path }) {
+export function articleJsonLd({ data, path, lang = 'ko-KR' }) {
   const url = absolute(path);
   const modified = data.updatedDate ?? data.pubDate;
   return {
@@ -49,7 +49,7 @@ export function articleJsonLd({ data, path }) {
     url,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     image: absolute(data.image ?? DEFAULT_OG_IMAGE),
-    inLanguage: 'ko-KR',
+    inLanguage: lang,
     ...(data.keyword ? { keywords: data.keyword } : {}),
     ...(data.pubDate ? { datePublished: data.pubDate.toISOString() } : {}),
     ...(modified ? { dateModified: modified.toISOString() } : {}),

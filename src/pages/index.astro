@@ -1,5 +1,20 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { categoryOf, byRecent } from '../lib/categories.js';
+
+const travelGuides = (await getCollection('travel')).sort(byRecent);
+const stays = (await getCollection('stays')).sort(byRecent);
+
+const all = [...travelGuides, ...stays].sort(byRecent);
+const [featured, ...restOfTop] = all;
+const heroGrid = restOfTop.slice(0, 4);
+const featuredCategory = featured ? categoryOf(featured) : null;
+const featuredHref = featured ? `/${featured.collection}/${featured.id}/` : '#';
+
+const latestTravel = travelGuides.slice(0, 6);
+const latestStays = stays.slice(0, 3);
 ---
 
 <BaseLayout
@@ -19,25 +34,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </section>
 
+  {featured && (
+    <section class="section featured-section">
+      <div class="featured-grid">
+        <a class="featured-card" href={featuredHref}>
+          {featured.data.image && (
+            <img src={featured.data.image} alt={featured.data.imageAlt ?? featured.data.title} loading="eager" />
+          )}
+          <div class="featured-card-body">
+            <span class="card-tag">{featuredCategory.label}</span>
+            <h2>{featured.data.title}</h2>
+            <p>{featured.data.description}</p>
+          </div>
+        </a>
+        <div class="featured-side-grid">
+          {heroGrid.map((entry) => (
+            <ArticleCard entry={entry} basePath={`/${entry.collection}/`} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
   <section class="section">
-    <h2>초기 콘텐츠 축</h2>
-    <div class="feature-grid">
-      <article>
-        <h3>일본 도시 숙소</h3>
-        <p>오사카, 후쿠오카, 유후인처럼 검색 수요가 큰 도시를 이동 기준으로 분해합니다.</p>
-      </article>
-      <article>
-        <h3>국내 여행 숙소</h3>
-        <p>도시, 축제, 섬 여행 수요와 연결되는 지역 숙소를 계절별로 묶습니다.</p>
-      </article>
-      <article>
-        <h3>예약 전 체크리스트</h3>
-        <p>취소 규정, 조식, 이동 시간, 객실 타입처럼 전환에 영향을 주는 항목을 정리합니다.</p>
-      </article>
-      <article>
-        <h3>시즌 여행지</h3>
-        <p>9월과 10월에 검색 수요가 살아나는 가을 산책, 시장, 자연휴양림 키워드를 다룹니다.</p>
-      </article>
+    <div class="section-head">
+      <h2>여행지 가이드</h2>
+      <a class="more-link" href="/travel/">더보기</a>
+    </div>
+    <div class="card-grid">
+      {latestTravel.map((entry) => (
+        <ArticleCard entry={entry} basePath="/travel/" />
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>숙소 가이드</h2>
+      <a class="more-link" href="/stays/">더보기</a>
+    </div>
+    <div class="card-grid">
+      {latestStays.map((entry) => (
+        <ArticleCard entry={entry} basePath="/stays/" />
+      ))}
     </div>
   </section>
 </BaseLayout>
