@@ -72,6 +72,10 @@ const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
     <header class="site-header">
       <div class="site-header-top">
         <a class="brand" href="/">Daytrevel Stay</a>
+        <div class="search-box">
+          <input type="search" id="site-search-input" placeholder="여행지·숙소 검색" aria-label="사이트 검색" autocomplete="off" />
+          <ul id="site-search-results" class="search-results" hidden></ul>
+        </div>
         <nav aria-label="사이트 메뉴">
           <a href="https://daytrevel.com">Daytrevel</a>
         </nav>
@@ -140,5 +144,62 @@ const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
         </nav>
       </div>
     </footer>
+    <script is:inline>
+      (function () {
+        const input = document.getElementById('site-search-input');
+        const results = document.getElementById('site-search-results');
+        if (!input || !results) return;
+
+        let index = null;
+        let loading = null;
+
+        function loadIndex() {
+          if (!loading) {
+            loading = fetch('/search-index.json')
+              .then((res) => res.json())
+              .then((data) => { index = data; })
+              .catch(() => { index = []; });
+          }
+          return loading;
+        }
+
+        function render(items) {
+          results.innerHTML = '';
+          if (!items.length) {
+            results.hidden = true;
+            return;
+          }
+          for (const item of items.slice(0, 8)) {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = item.url;
+            a.innerHTML = '<span class="search-result-tag">' + item.category + '</span>' + item.title;
+            li.appendChild(a);
+            results.appendChild(li);
+          }
+          results.hidden = false;
+        }
+
+        function search(query) {
+          const q = query.trim().toLowerCase();
+          if (!q || !index) {
+            results.hidden = true;
+            return;
+          }
+          const matched = index.filter((item) =>
+            item.title.toLowerCase().includes(q) || (item.keyword ?? '').toLowerCase().includes(q)
+          );
+          render(matched);
+        }
+
+        input.addEventListener('focus', loadIndex);
+        input.addEventListener('input', () => {
+          loadIndex().then(() => search(input.value));
+        });
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.search-box')) results.hidden = true;
+        });
+      })();
+    </script>
   </body>
 </html>
