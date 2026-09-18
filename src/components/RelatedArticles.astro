@@ -1,0 +1,17 @@
+---
+const { entries, basePath, heading = '관련 글' } = Astro.props;
+---
+
+{entries.length > 0 && (
+  <aside class="article-sidebar" aria-label={heading}>
+    <h2>{heading}</h2>
+    {entries.map((entry) => (
+      <a class="related-card" href={`${basePath}${entry.id}/`}>
+        {entry.data.image && (
+          <img src={entry.data.image} alt={entry.data.imageAlt ?? entry.data.title} loading="lazy" />
+        )}
+        <span class="related-title">{entry.data.title}</span>
+      </a>
+    ))}
+  </aside>
+)}

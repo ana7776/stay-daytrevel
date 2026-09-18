@@ -16,6 +16,10 @@ const {
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// 정적 경로(/styles/global.css)는 파일명이 안 바뀌어서 배포 후에도 CDN·브라우저가
+// 이전 CSS를 캐시해 새 마크업과 어긋날 수 있다. 빌드 시각을 쿼리로 붙여 매 배포마다
+// 새로 받아오게 한다.
+const cssVersion = new Date().getTime();
 // image가 없는 글도 공유 시 썸네일이 나오도록 기본 이미지로 대체한다.
 const usingDefaultImage = !image;
 const ogImage = new URL(image ?? '/og-default.png', Astro.site).href;
@@ -33,7 +37,7 @@ const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="stylesheet" href="/styles/global.css" />
+    <link rel="stylesheet" href={`/styles/global.css?v=${cssVersion}`} />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Daytrevel Stay" />
