@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { byRecent } from '../../../lib/categories.js';
+
+const stays = (await getCollection('staysEn')).sort(byRecent);
+---
+
+<BaseLayout title="Stay Guides | Daytrevel Stay" description="English guides on where to stay by city, transit, and what to check before booking.">
+  <section class="page-head">
+    <p class="eyebrow">Stay Guides</p>
+    <h1>Stay guides</h1>
+    <p>Where to stay by city, based on transit and pre-booking checklists, translated into English.</p>
+  </section>
+
+  <section class="card-grid card-grid-page">
+    {stays.map((stay) => (
+      <article class="card">
+        <a class="card-media" href={`/en/stays/${stay.id}/`} aria-hidden="true" tabindex="-1">
+          {stay.data.image && <img src={stay.data.image} alt={stay.data.imageAlt ?? stay.data.title} loading="lazy" />}
+        </a>
+        <div class="card-body">
+          <h3><a href={`/en/stays/${stay.id}/`}>{stay.data.title}</a></h3>
+          <p>{stay.data.description}</p>
+          <p class="card-meta">{stay.data.country} · {stay.data.city}</p>
+        </div>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

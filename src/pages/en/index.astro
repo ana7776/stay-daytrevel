@@ -3,8 +3,14 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { byRecent } from '../../lib/categories.js';
 
-const latestTravel = (await getCollection('travel')).sort(byRecent).slice(0, 6);
-const latestStays = (await getCollection('stays')).sort(byRecent).slice(0, 6);
+const translatedTravel = (await getCollection('travelEn')).sort(byRecent);
+const translatedStays = (await getCollection('staysEn')).sort(byRecent);
+const translatedSlugs = new Set([...translatedTravel, ...translatedStays].map((e) => e.id));
+
+const otherTravel = (await getCollection('travel'))
+  .filter((e) => !translatedSlugs.has(e.id))
+  .sort(byRecent)
+  .slice(0, 6);
 ---
 
 <BaseLayout
@@ -24,32 +30,55 @@ const latestStays = (await getCollection('stays')).sort(byRecent).slice(0, 6);
   </section>
 
   <section class="section">
-    <p class="lead">
-      Our in-depth guides are currently written in Korean. Article titles below link to
-      the full Korean guide &mdash; an English version is on our roadmap.
-    </p>
-  </section>
-
-  <section class="section">
     <div class="section-head">
       <h2>Travel guides</h2>
-      <a class="more-link" href="/travel/">More</a>
+      <a class="more-link" href="/en/travel/">More</a>
     </div>
-    <ul>
-      {latestTravel.map((entry) => (
-        <li><a href={`/travel/${entry.id}/`}>{entry.data.title}</a></li>
+    <div class="card-grid">
+      {translatedTravel.slice(0, 6).map((entry) => (
+        <article class="card">
+          <a class="card-media" href={`/en/travel/${entry.id}/`} aria-hidden="true" tabindex="-1">
+            {entry.data.image && <img src={entry.data.image} alt={entry.data.imageAlt ?? entry.data.title} loading="lazy" />}
+          </a>
+          <div class="card-body">
+            <h3><a href={`/en/travel/${entry.id}/`}>{entry.data.title}</a></h3>
+            <p>{entry.data.description}</p>
+            <p class="card-meta">{[entry.data.country, entry.data.city].filter(Boolean).join(' · ')}</p>
+          </div>
+        </article>
       ))}
-    </ul>
+    </div>
   </section>
 
   <section class="section">
     <div class="section-head">
       <h2>Stay guides</h2>
-      <a class="more-link" href="/stays/">More</a>
+      <a class="more-link" href="/en/stays/">More</a>
     </div>
+    <div class="card-grid">
+      {translatedStays.map((entry) => (
+        <article class="card">
+          <a class="card-media" href={`/en/stays/${entry.id}/`} aria-hidden="true" tabindex="-1">
+            {entry.data.image && <img src={entry.data.image} alt={entry.data.imageAlt ?? entry.data.title} loading="lazy" />}
+          </a>
+          <div class="card-body">
+            <h3><a href={`/en/stays/${entry.id}/`}>{entry.data.title}</a></h3>
+            <p>{entry.data.description}</p>
+            <p class="card-meta">{entry.data.country} · {entry.data.city}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="lead">
+      More guides are being translated. In the meantime, the titles below link to the
+      full Korean version.
+    </p>
     <ul>
-      {latestStays.map((entry) => (
-        <li><a href={`/stays/${entry.id}/`}>{entry.data.title}</a></li>
+      {otherTravel.map((entry) => (
+        <li><a href={`/travel/${entry.id}/`}>{entry.data.title}</a></li>
       ))}
     </ul>
   </section>

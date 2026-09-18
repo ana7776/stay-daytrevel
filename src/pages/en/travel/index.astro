@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { byRecent } from '../../../lib/categories.js';
+
+const guides = (await getCollection('travelEn')).sort(byRecent);
+---
+
+<BaseLayout title="Travel Guides | Daytrevel Stay" description="English travel guides covering routes, seasons, and what to check before you go.">
+  <section class="page-head">
+    <p class="eyebrow">Travel Guides</p>
+    <h1>Travel guides</h1>
+    <p>Destination features, routes, and pre-visit checklists, translated into English.</p>
+  </section>
+
+  <section class="card-grid card-grid-page">
+    {guides.map((guide) => (
+      <article class="card">
+        <a class="card-media" href={`/en/travel/${guide.id}/`} aria-hidden="true" tabindex="-1">
+          {guide.data.image && <img src={guide.data.image} alt={guide.data.imageAlt ?? guide.data.title} loading="lazy" />}
+        </a>
+        <div class="card-body">
+          <h3><a href={`/en/travel/${guide.id}/`}>{guide.data.title}</a></h3>
+          <p>{guide.data.description}</p>
+          <p class="card-meta">{[guide.data.country, guide.data.city, guide.data.season].filter(Boolean).join(' · ')}</p>
+        </div>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

@@ -1,8 +1,8 @@
 ---
-const { crumbs } = Astro.props;
+const { crumbs, label = '현재 위치' } = Astro.props;
 ---
 
-<nav class="breadcrumbs" aria-label="현재 위치">
+<nav class="breadcrumbs" aria-label={label}>
   <ol>
     {crumbs.map((crumb) => (
       <li>
