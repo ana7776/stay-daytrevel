@@ -2,19 +2,22 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
 import { articleJsonLd, breadcrumbJsonLd, faqJsonLd } from '../../lib/seo.js';
+import { relatedEntries } from '../../lib/categories.js';
 
 export async function getStaticPaths() {
   const guides = await getCollection('travel');
 
   return guides.map((guide) => ({
     params: { slug: guide.id },
-    props: { guide }
+    props: { guide, allGuides: guides }
   }));
 }
 
-const { guide } = Astro.props;
+const { guide, allGuides } = Astro.props;
 const { Content } = await render(guide);
+const related = relatedEntries(guide, allGuides);
 
 const path = `/travel/${guide.id}/`;
 const crumbs = [
@@ -39,6 +42,7 @@ const jsonLd = [
   modifiedTime={guide.data.updatedDate ?? guide.data.pubDate}
   jsonLd={jsonLd}
 >
+  <div class="article-layout">
   <article class="article">
     <Breadcrumbs crumbs={crumbs} />
     <p class="meta">{[guide.data.country, guide.data.city, guide.data.season].filter(Boolean).join(' · ')}</p>
@@ -70,4 +74,6 @@ const jsonLd = [
       </section>
     )}
   </article>
+  <RelatedArticles entries={related} basePath="/travel/" />
+  </div>
 </BaseLayout>

@@ -19,3 +19,18 @@ export function categoryOf(entry) {
 export function byRecent(a, b) {
   return b.data.pubDate.getTime() - a.data.pubDate.getTime();
 }
+
+// 같은 도시 글을 우선하고, 부족하면 같은 국가·최신 글로 채운다.
+export function relatedEntries(current, pool, limit = 5) {
+  const others = pool.filter((e) => e.id !== current.id);
+  const sameCity = others.filter((e) => e.data.city === current.data.city);
+  const sameCountry = others.filter(
+    (e) => e.data.country === current.data.country && e.data.city !== current.data.city
+  );
+  const rest = others.filter(
+    (e) => e.data.country !== current.data.country
+  );
+
+  const merged = [...sameCity.sort(byRecent), ...sameCountry.sort(byRecent), ...rest.sort(byRecent)];
+  return merged.slice(0, limit);
+}
