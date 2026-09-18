@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { byRecent } from '../../lib/categories.js';
+
+const latestTravel = (await getCollection('travel')).sort(byRecent).slice(0, 6);
+const latestStays = (await getCollection('stays')).sort(byRecent).slice(0, 6);
+---
+
+<BaseLayout
+  title="Daytrevel Stay | Practical Travel & Stay Guides"
+  description="Daytrevel Stay curates where to stay and where to go, based on transit, budget, and booking conditions."
+>
+  <section class="hero">
+    <div>
+      <p class="eyebrow">stay.daytrevel.com</p>
+      <h1>The most practical way to pick a stay for your trip</h1>
+      <p>
+        We compare hotels, ryokans, resorts, and guesthouses by transit and budget,
+        and cover what to check before you book &mdash; not just referral links.
+      </p>
+      <a class="button" href="/">한국어로 보기</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="lead">
+      Our in-depth guides are currently written in Korean. Article titles below link to
+      the full Korean guide &mdash; an English version is on our roadmap.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Travel guides</h2>
+      <a class="more-link" href="/travel/">More</a>
+    </div>
+    <ul>
+      {latestTravel.map((entry) => (
+        <li><a href={`/travel/${entry.id}/`}>{entry.data.title}</a></li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Stay guides</h2>
+      <a class="more-link" href="/stays/">More</a>
+    </div>
+    <ul>
+      {latestStays.map((entry) => (
+        <li><a href={`/stays/${entry.id}/`}>{entry.data.title}</a></li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

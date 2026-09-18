@@ -1,11 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { byRecent } from '../../lib/categories.js';
 
-const stays = await getCollection('stays');
-const sortedStays = stays.sort(
-  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
-);
+const stays = (await getCollection('stays')).sort(byRecent);
 ---
 
 <BaseLayout title="숙소 가이드 | Daytrevel Stay" description="도시별 숙소 위치와 예약 전 체크리스트 모음">
@@ -15,16 +14,9 @@ const sortedStays = stays.sort(
     <p>도시별 동선, 예산, 예약 전 체크 포인트를 모아둡니다.</p>
   </section>
 
-  <section class="list">
-    {sortedStays.map((stay) => (
-      <article class="list-item">
-        {stay.data.image && (
-          <img class="list-image" src={stay.data.image} alt={stay.data.imageAlt ?? stay.data.title} loading="lazy" />
-        )}
-        <p class="meta">{stay.data.country} · {stay.data.city}</p>
-        <h2><a href={`/stays/${stay.id}/`}>{stay.data.title}</a></h2>
-        <p>{stay.data.description}</p>
-      </article>
+  <section class="card-grid card-grid-page">
+    {stays.map((stay) => (
+      <ArticleCard entry={stay} basePath="/stays/" />
     ))}
   </section>
 </BaseLayout>

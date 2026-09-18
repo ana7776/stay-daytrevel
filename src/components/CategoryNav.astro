@@ -1,0 +1,15 @@
+---
+const categories = [
+  { label: '국내여행', href: '/domestic/' },
+  { label: '해외여행', href: '/overseas/' },
+  { label: '숙소', href: '/stays/' },
+  { label: '축제', href: '/festival/' }
+];
+const current = Astro.url.pathname;
+---
+
+<nav class="category-nav" aria-label="카테고리">
+  {categories.map((c) => (
+    <a href={c.href} class:list={{ active: current.startsWith(c.href) }}>{c.label}</a>
+  ))}
+</nav>

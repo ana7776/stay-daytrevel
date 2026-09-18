@@ -1,4 +1,10 @@
 ---
+import { getCollection } from 'astro:content';
+import CategoryNav from '../components/CategoryNav.astro';
+import { byRecent } from '../lib/categories.js';
+
+const recommended = (await getCollection('travel')).sort(byRecent).slice(0, 3);
+
 const {
   title = 'Daytrevel Stay',
   description = '여행자를 위한 숙박 큐레이션과 예약 가이드',
@@ -64,12 +70,13 @@ const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/">Daytrevel Stay</a>
-      <nav aria-label="주요 메뉴">
-        <a href="/stays/">숙소 가이드</a>
-        <a href="/travel/">여행지 가이드</a>
-        <a href="https://daytrevel.com">Daytrevel</a>
-      </nav>
+      <div class="site-header-top">
+        <a class="brand" href="/">Daytrevel Stay</a>
+        <nav aria-label="사이트 메뉴">
+          <a href="https://daytrevel.com">Daytrevel</a>
+        </nav>
+      </div>
+      <CategoryNav />
     </header>
     {adsenseClient && (
       <ins
@@ -90,11 +97,48 @@ const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
       <slot />
     </main>
     <footer class="site-footer">
-      <p>Daytrevel Stay는 일부 링크에서 제휴 수수료를 받을 수 있습니다.</p>
-      <nav aria-label="사이트 정보">
-        <a href="/privacy/">개인정보처리방침</a>
-        <a href="/contact/">문의</a>
-      </nav>
+      <div class="footer-columns">
+        <div class="footer-brand">
+          <p class="footer-logo">Daytrevel Stay</p>
+          <p>여행 일정에 맞는 숙소와 여행지를 실용적인 기준으로 정리하는 여행 채널</p>
+        </div>
+        <div>
+          <p class="footer-col-title">매거진</p>
+          <a href="/">홈</a>
+          <a href="/domestic/">국내여행</a>
+          <a href="/overseas/">해외여행</a>
+        </div>
+        <div>
+          <p class="footer-col-title">여행 허브</p>
+          <a href="/travel/">여행지 가이드</a>
+          <a href="/stays/">숙소 가이드</a>
+        </div>
+        <div>
+          <p class="footer-col-title">카테고리</p>
+          <a href="/domestic/">국내여행</a>
+          <a href="/overseas/">해외여행</a>
+          <a href="/stays/">숙소</a>
+          <a href="/festival/">축제</a>
+        </div>
+        <div>
+          <p class="footer-col-title">추천 읽을거리</p>
+          {recommended.map((entry) => (
+            <a href={`/travel/${entry.id}/`}>{entry.data.title}</a>
+          ))}
+        </div>
+        <div>
+          <p class="footer-col-title">LANGUAGE</p>
+          <span class="footer-lang active">한국어</span>
+          <a href="/en/">English</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Daytrevel Stay는 일부 링크에서 제휴 수수료를 받을 수 있습니다.</p>
+        <nav aria-label="사이트 정보">
+          <a href="/privacy/">개인정보처리방침</a>
+          <a href="/contact/">문의</a>
+        </nav>
+      </div>
     </footer>
   </body>
 </html>

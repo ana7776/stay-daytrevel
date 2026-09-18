@@ -1,0 +1,22 @@
+---
+import { categoryOf } from '../lib/categories.js';
+
+const { entry, basePath } = Astro.props;
+const category = categoryOf(entry);
+const href = `${basePath}${entry.id}/`;
+const meta = [entry.data.country, entry.data.city, entry.data.season].filter(Boolean).join(' · ');
+---
+
+<article class="card">
+  <a class="card-media" href={href} aria-hidden="true" tabindex="-1">
+    {entry.data.image && (
+      <img src={entry.data.image} alt={entry.data.imageAlt ?? entry.data.title} loading="lazy" />
+    )}
+  </a>
+  <div class="card-body">
+    <a class="card-tag" href={category.href}>{category.label}</a>
+    <h3><a href={href}>{entry.data.title}</a></h3>
+    <p>{entry.data.description}</p>
+    {meta && <p class="card-meta">{meta}</p>}
+  </div>
+</article>
