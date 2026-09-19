@@ -287,7 +287,8 @@ h2 {
 .section,
 .page-head,
 .list,
-.article-layout {
+.article-layout,
+.card-grid-page {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
   padding: 72px 0;
