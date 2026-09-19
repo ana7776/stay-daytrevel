@@ -2,19 +2,23 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { byRecent } from '../../lib/categories.js';
 
 const stays = (await getCollection('stays')).sort(byRecent);
+const crumbs = [{ name: '홈', path: '/' }, { name: '숙소' }];
 ---
 
 <BaseLayout title="숙소 가이드 | Daytrevel Stay" description="도시별 숙소 위치와 예약 전 체크리스트 모음">
   <section class="page-head">
+    <Breadcrumbs crumbs={crumbs} />
     <p class="eyebrow">Stay Guides</p>
     <h1>숙소 가이드</h1>
     <p>도시별 동선, 예산, 예약 전 체크 포인트를 모아둡니다.</p>
   </section>
 
   <section class="card-grid card-grid-page">
+    <h2 class="visually-hidden">숙소 글 목록</h2>
     {stays.map((stay) => (
       <ArticleCard entry={stay} basePath="/stays/" />
     ))}

@@ -1,19 +1,23 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import { byRecent } from '../../../lib/categories.js';
 
 const guides = (await getCollection('travelEn')).sort(byRecent);
+const crumbs = [{ name: 'Home', path: '/en/' }, { name: 'Travel Guides' }];
 ---
 
 <BaseLayout title="Travel Guides | Daytrevel Stay" description="English travel guides covering routes, seasons, and what to check before you go.">
   <section class="page-head">
+    <Breadcrumbs crumbs={crumbs} label="Current location" />
     <p class="eyebrow">Travel Guides</p>
     <h1>Travel guides</h1>
     <p>Destination features, routes, and pre-visit checklists, translated into English.</p>
   </section>
 
   <section class="card-grid card-grid-page">
+    <h2 class="visually-hidden">List of travel guides</h2>
     {guides.map((guide) => (
       <article class="card">
         <a class="card-media" href={`/en/travel/${guide.id}/`} aria-hidden="true" tabindex="-1">

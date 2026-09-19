@@ -1,19 +1,23 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import { byRecent } from '../../../lib/categories.js';
 
 const stays = (await getCollection('staysEn')).sort(byRecent);
+const crumbs = [{ name: 'Home', path: '/en/' }, { name: 'Stay Guides' }];
 ---
 
 <BaseLayout title="Stay Guides | Daytrevel Stay" description="English guides on where to stay by city, transit, and what to check before booking.">
   <section class="page-head">
+    <Breadcrumbs crumbs={crumbs} label="Current location" />
     <p class="eyebrow">Stay Guides</p>
     <h1>Stay guides</h1>
-    <p>Where to stay by city, based on transit and pre-booking checklists, translated into English.</p>
+    <p>Where to stay by city, based on transit and pre-booking checklists, translated into English. We group each city by neighborhood so you can match a base to your itinerary before comparing individual properties.</p>
   </section>
 
   <section class="card-grid card-grid-page">
+    <h2 class="visually-hidden">List of stay guides</h2>
     {stays.map((stay) => (
       <article class="card">
         <a class="card-media" href={`/en/stays/${stay.id}/`} aria-hidden="true" tabindex="-1">
