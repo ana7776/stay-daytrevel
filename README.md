@@ -52,7 +52,9 @@ npm run build
    - Build command: `npm run build`
    - Build output directory: `dist`
 3. Settings → Variables and Secrets에 `PUBLIC_ADSENSE_CLIENT` 추가 (Production)
-4. 변수 추가 후에는 광고 스크립트가 들어가도록 재배포(Retry deployment)
+4. 변수 추가 후에는 광고 스크립트가 들어가도록 재배포. `Retry deployment`가 이전 스냅샷을 그대로
+   재사용해 새 환경변수를 반영하지 못하는 경우가 있으므로, 반영이 안 되면 새 커밋을 푸시해
+   완전히 새로운 배포를 트리거한다.
 
 ## 하위도메인 연결
 
