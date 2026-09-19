@@ -39,6 +39,7 @@ const jsonLd = [
   modifiedTime={guide.data.updatedDate ?? guide.data.pubDate}
   jsonLd={jsonLd}
 >
+  <div class="article-layout article-layout-solo">
   <article class="article">
     <Breadcrumbs crumbs={crumbs} label="Current location" />
     <p class="meta">{[guide.data.country, guide.data.city, guide.data.season].filter(Boolean).join(' · ')}</p>
@@ -70,4 +71,5 @@ const jsonLd = [
       </section>
     )}
   </article>
+  </div>
 </BaseLayout>

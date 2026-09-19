@@ -39,6 +39,7 @@ const jsonLd = [
   modifiedTime={stay.data.updatedDate ?? stay.data.pubDate}
   jsonLd={jsonLd}
 >
+  <div class="article-layout article-layout-solo">
   <article class="article">
     <Breadcrumbs crumbs={crumbs} label="Current location" />
     <p class="meta">{stay.data.country} · {stay.data.city}</p>
@@ -70,4 +71,5 @@ const jsonLd = [
       </section>
     )}
   </article>
+  </div>
 </BaseLayout>
