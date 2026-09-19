@@ -1,3 +1,6 @@
 name = "stay-daytrevel"
 compatibility_date = "2026-08-11"
 pages_build_output_dir = "./dist"
+
+[vars]
+PUBLIC_ADSENSE_CLIENT = "ca-pub-5804969457082424"

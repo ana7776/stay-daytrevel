@@ -51,10 +51,11 @@ npm run build
    - Production branch: `main`
    - Build command: `npm run build`
    - Build output directory: `dist`
-3. Settings → Variables and Secrets에 `PUBLIC_ADSENSE_CLIENT` 추가 (Production)
-4. 변수 추가 후에는 광고 스크립트가 들어가도록 재배포. `Retry deployment`가 이전 스냅샷을 그대로
-   재사용해 새 환경변수를 반영하지 못하는 경우가 있으므로, 반영이 안 되면 새 커밋을 푸시해
-   완전히 새로운 배포를 트리거한다.
+3. `PUBLIC_ADSENSE_CLIENT`는 **대시보드의 "Variables and secrets"에 넣지 말고 `wrangler.toml`의
+   `[vars]`에 넣는다.** 저장소에 `wrangler.toml`이 있으면 Cloudflare는 빌드 환경변수를 대시보드가
+   아니라 이 파일 기준으로 읽고, 대시보드 값은 조용히 무시한다("Build environment variables:
+   (none found)"가 빌드 로그에 찍힌다). `PUBLIC_ADSENSE_CLIENT`는 클라이언트에 그대로 노출되는
+   공개 값이라 커밋해도 안전하다.
 
 ## 하위도메인 연결
 
