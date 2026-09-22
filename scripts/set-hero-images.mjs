@@ -57,6 +57,11 @@ const QUERIES = {
 	'hamyang-rest-area': 'highway rest area service korea',
 	'namhae-sangsang-sheep-farm': 'sheep pasture forest countryside korea',
 	'hongje-waterfall': 'urban artificial waterfall city park korea',
+	'asan-gokgyocheon-ginkgo-road': 'golden ginkgo tree road autumn korea',
+	'damyang-gwanbangjerim': 'old riverside forest ancient trees korea',
+	'mungyeong-saejae-provincial-park': 'mountain pass trail autumn foliage korea',
+	'sunchang-gangcheonsan-park': 'maple valley suspension bridge autumn korea',
+	'yeongwol-cheongnyeongpo': 'riverside pine forest cliff korea',
 
 	// stays (해외 숙소 지역: TourAPI 대상 아님, Pexels 로 분위기 사진)
 	'osaka-namba-hotel-area': 'osaka namba dotonbori street night',

@@ -81,6 +81,11 @@ const KEYWORDS = {
 	'hamyang-rest-area': { keywords: ['함양휴게소'], match: '함양휴게소' },
 	'namhae-sangsang-sheep-farm': { keywords: ['남해 상상양떼목장 편백숲', '상상양떼목장', '남해 상상양떼목장'], areaCode: AREA.경남, match: '양떼목장' },
 	'hongje-waterfall': { keywords: ['홍제폭포', '홍제천 인공폭포'], areaCode: AREA.서울, match: '홍제' },
+	'asan-gokgyocheon-ginkgo-road': { keywords: ['곡교천 은행나무길', '아산 곡교천 은행나무길'], areaCode: AREA.충남, match: '은행나무길' },
+	'damyang-gwanbangjerim': { keywords: ['관방제림', '담양 관방제림'], areaCode: AREA.전남, match: '관방제림' },
+	'mungyeong-saejae-provincial-park': { keywords: ['문경새재도립공원', '문경새재'], areaCode: AREA.경북, match: '문경새재' },
+	'sunchang-gangcheonsan-park': { keywords: ['강천산군립공원', '강천산'], areaCode: AREA.전북, match: '강천산' },
+	'yeongwol-cheongnyeongpo': { keywords: ['청령포', '영월 청령포'], areaCode: AREA.강원, match: '청령포' },
 
 	// stays (국내 지역만 대상. 오사카 등 해외 숙소 지역은 Pexels 로 폴백)
 };
