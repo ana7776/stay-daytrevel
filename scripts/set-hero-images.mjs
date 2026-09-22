@@ -22,7 +22,10 @@ if (!apiKey) {
 }
 
 // slug -> English search query. 여기 없는 슬러그는 keyword frontmatter로 검색한다.
-const QUERIES = {};
+// 한국어 keyword를 그대로 검색해 엉뚱한 사진이 매칭된 슬러그는 여기에 영어 쿼리를 추가한다.
+const QUERIES = {
+	'yeongwol-cheongnyeongpo': 'riverside pine forest cliff korea',
+};
 
 const CONTENT_DIRS = [path.join('src', 'content', 'travel'), path.join('src', 'content', 'stays')];
 
