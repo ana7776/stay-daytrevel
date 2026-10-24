@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import RelatedArticles from '../../components/RelatedArticles.astro';
+import ArticleAd from '../../components/ArticleAd.astro';
 import { articleJsonLd, breadcrumbJsonLd, faqJsonLd } from '../../lib/seo.js';
 import { relatedEntries } from '../../lib/categories.js';
 
@@ -73,6 +74,7 @@ const jsonLd = [
         ))}
       </section>
     )}
+    <ArticleAd />
   </article>
   <RelatedArticles entries={related} basePath="/stays/" />
   </div>

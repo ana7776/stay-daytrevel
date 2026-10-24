@@ -88,14 +88,17 @@ const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
       <CategoryNav />
     </header>
     {adsenseClient && (
-      <ins
-        class="adsbygoogle"
-        style="display:block"
-        data-ad-client={adsenseClient}
-        data-ad-slot="6912286418"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      />
+      <section class="top-ad" aria-label="광고">
+        <p class="top-ad-label">광고</p>
+        <ins
+          class="adsbygoogle"
+          style="display:block"
+          data-ad-client={adsenseClient}
+          data-ad-slot="6912286418"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      </section>
     )}
     {adsenseClient && (
       <script is:inline>
@@ -105,6 +108,10 @@ const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
     <main>
       <slot />
     </main>
+    <style>
+      .top-ad { margin: 1rem auto 1.5rem; width: min(100% - 2rem, 1100px); min-height: 90px; text-align: center; }
+      .top-ad-label { margin: 0 0 0.45rem; color: #6b7280; font-size: 0.75rem; }
+    </style>
     <footer class="site-footer">
       <div class="footer-columns">
         <div class="footer-brand">
